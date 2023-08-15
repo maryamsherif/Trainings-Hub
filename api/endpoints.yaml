@@ -11,6 +11,7 @@ tags:
   - name: course
     description: Everything about the courses
 paths:
+
   /getAllCourses:
     get:
       tags:
@@ -85,10 +86,26 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Content'
-
-
-
-
+  
+  /addComment:
+    post:
+      tags:
+        - course
+      summary: Add a new comment
+      description: Adds a new comment for a course.
+      operationId: addComment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        '201':
+          description: Comment added successfully
+        '400':
+          description: Invalid input
+          
 components:
   schemas:
     Course:
@@ -108,7 +125,7 @@ components:
             - Beginner
             - Intermediate
             - Professional
-        instructorName:
+        instructor_name:
           type: string
           example: Mr. John
         rating:
@@ -117,7 +134,12 @@ components:
           example: 4
       xml:
         name: course
-
+      required:
+        - id
+        - description
+        - category
+        - instructor_name
+        - rating
     Content:
       type: object
       properties:
@@ -141,3 +163,43 @@ components:
           example: 120
       xml:
         name: content
+      required:
+        - id
+        - course_id
+        - topic_title
+        - link
+        - duration
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        course_id:
+          type: integer
+          format: int64
+          example: 10
+        author:
+          type: string
+          example: Mr. Ali
+        rating:
+          type: integer
+          format: int64
+          example: 4
+        comment:
+          type: string
+          example: This course helped me to get me my first job
+        comment_date_time:
+          type: string
+          format: date-time
+          example: 2023-08-15T14:30:00Z
+      xml:
+        name: comment
+      required:
+        - id
+        - course_id
+        - author
+        - rating
+        - comment
+        - comment_date_time
