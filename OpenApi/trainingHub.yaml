@@ -33,13 +33,20 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Course'
-  /getCoursesByKeyword:
+  /Keyword/{coursekeyword}:
    get:
     tags:
      - course
     summary: Gets courses using keywords
     description: gets all courses in the database using keywords
-    operationId: getCoursesByKeyword
+    operationId: Keyword
+    parameters:
+        - name: coursekeyword
+          in: path
+          description: All keywords which are related to the course
+          required: true
+          schema:
+            type: string
     responses:
      '200':
        description: successful operation
@@ -79,44 +86,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Course'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Course'
+        '404':
+          description: Course not found
 
-  /getCourseContent/{courseId}:
-    get:
-      tags:
-        - course
-      summary: Get course content by course ID
-      description: Gets all the course content for a specific course.
-      operationId: getCourseContent
-      parameters:
-        - name: courseId
-          in: path
-          description: ID of the course to retrieve content for
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Content'
 
-  /getCourseByCategory/{courseCategory}:
+  /Category/{courseCategory}:
     get:
       tags:
         - course
       summary: Get course by Category
       description: Retrieves all courses by their category.
-      operationId: getCourseByCategory
+      operationId: Category
       parameters:
         - name: courseCategory
           in: path
@@ -132,52 +112,115 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Course'
+        '404':
+          description: Invalid Category 
+
+  /addCourse:
+    post:
+      tags:
+        - course
+      summary: Add a new course
+      operationId: addCourse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+      responses:
+        '200':
+          description: Course added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+
+  /updateCourse/{courseId}:
+    patch:
+      tags:
+        - course
+      summary: Update an existing course
+      operationId: editCourse
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+      responses:
+        '200':
+          description: Course edited successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        '404':
+          description: Course not found
+
+  /deleteCourse/{courseId}:
+    delete:
+      tags:
+        - course
+      summary: Delete a course
+      operationId: deleteCourse
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Course deleted successfully
+        '404':
+          description: Course not found
+
+
+  /getAllComments/{courseId}:
+    get:
+      summary: Get all comments for a specific course
+      tags:
+      - comment
+      operationId: getAllComments
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '206':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
             application/xml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Course'
+                 $ref: '#/components/schemas/Comment'
 
 
-  /comments:
-    get:
-      summary: Get all comments
-      tags:
-      - comment
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json:
-              example:
-                - id: 1
-                  course_id: 10
-                  author: 
-                   type: string
-                  rating: 4
-                  comment: 
-                   type: string
-                  comment_date_time: 
-                    type: string
-                - id: 2
-                  course_id: 12
-                  author: 
-                   type: string
-                  rating: 5
-                  comment:  
-                   type: string
-                  comment_date_time: 
-                   type: string
-        '405':
-          description: wrong ID
-
-  /addComment:
+  /addComment/{courseId}:
     post:
       tags:
         - comment
       summary: Add a new comment
       description: Adds a new comment for a course.
       operationId: addComment
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
@@ -237,6 +280,12 @@ components:
           type: integer
           format: int32
           example: 4
+        duration:
+          type: integer
+          example: 49.6
+        content:
+          type: string
+          example: https://www.udemy.com/course/the-ultimate-react-course/
       xml:
         name: course
       required:
