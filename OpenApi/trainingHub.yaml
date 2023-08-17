@@ -1,0 +1,310 @@
+openapi: 3.0.0
+info:
+  title: Training HUB
+  version: 1.0.11
+externalDocs:
+  description: Retrieves all the courses and comments information, you can search for  courses by courseId, courseCategory
+  url: http://swagger.io
+servers:
+  - url: https://localhost:8080
+tags:
+  - name: course
+    description: Everything about the courses
+paths:
+
+  /getAllCourses:
+    get:
+      tags:
+        - course
+      summary: Gets all courses
+      description: Gets all the courses in the database.
+      operationId: getAllCourses
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+  /getCoursesByKeyword:
+   get:
+    tags:
+     - course
+    summary: Gets courses using keywords
+    description: gets all courses in the database using keywords
+    operationId: getCoursesByKeyword
+    responses:
+     '200':
+       description: successful operation
+       content:
+         application/json:
+           schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Course'
+         application/xml:
+            schema:
+               type: array
+               items:
+                $ref: '#/components/schemas/Course'
+     '404':
+          description: Course not found
+          
+  /getCourseById/{courseId}:
+    get:
+      tags:
+        - course
+      summary: Get course by ID
+      description: Retrieves a specific course by its ID.
+      operationId: getCourseById
+      parameters:
+        - name: courseId
+          in: path
+          description: ID of the course to retrieve
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+
+  /getCourseContent/{courseId}:
+    get:
+      tags:
+        - course
+      summary: Get course content by course ID
+      description: Gets all the course content for a specific course.
+      operationId: getCourseContent
+      parameters:
+        - name: courseId
+          in: path
+          description: ID of the course to retrieve content for
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Content'
+
+  /getCourseByCategory/{courseCategory}:
+    get:
+      tags:
+        - course
+      summary: Get course by Category
+      description: Retrieves all courses by their category.
+      operationId: getCourseByCategory
+      parameters:
+        - name: courseCategory
+          in: path
+          description: 'Category of the courses to retrieve: {0: "Beginner", 1: "Intermediate", 2: "Advanced"}'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+
+
+  /comments:
+    get:
+      summary: Get all comments
+      tags:
+      - comment
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - id: 1
+                  course_id: 10
+                  author: 
+                   type: string
+                  rating: 4
+                  comment: 
+                   type: string
+                  comment_date_time: 
+                    type: string
+                - id: 2
+                  course_id: 12
+                  author: 
+                   type: string
+                  rating: 5
+                  comment:  
+                   type: string
+                  comment_date_time: 
+                   type: string
+        '405':
+          description: wrong ID
+
+  /addComment:
+    post:
+      tags:
+        - comment
+      summary: Add a new comment
+      description: Adds a new comment for a course.
+      operationId: addComment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        '201':
+          description: Comment added successfully
+        '400':
+          description: Invalid input
+
+  /deleteComment/{commentId}:
+    delete:
+      tags:
+        - comment
+      summary: Delete a comment by ID
+      description: Deletes a comment for a course by its ID.
+      operationId: deleteComment
+      parameters:
+        - name: commentId
+          in: path
+          description: ID of the comment to be deleted
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '204':
+          description: Comment deleted successfully
+        '404':
+          description: Comment not found
+          
+components:
+  schemas:
+    Course:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        description:
+          type: string
+          example: Spring Boot crash course
+        category:
+          type: string
+          description: Course Level
+          enum:
+            - Beginner
+            - Intermediate
+            - Professional
+        instructor_name:
+          type: string
+          example: Mr. John
+        rating:
+          type: integer
+          format: int32
+          example: 4
+      xml:
+        name: course
+      required:
+        - id
+        - description
+        - category
+        - instructor_name
+        - rating
+    Content:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 101
+        course_id:
+          type: integer
+          format: int64
+          example: 10
+        topic_title:
+          type: string
+          example: Introduction to Spring Boot
+        link:
+          type: string
+          format: uri
+          example: https://example.com/spring-boot-intro
+        duration:
+          type: integer
+          example: 120
+      xml:
+        name: content
+      required:
+        - id
+        - course_id
+        - topic_title
+        - link
+        - duration
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        course_id:
+          type: integer
+          format: int64
+          example: 10
+        author:
+          type: string
+          example: Mr. Ali
+        rating:
+          type: integer
+          format: int64
+          example: 4
+        comment:
+          type: string
+          example: This course helped me to get me my first job
+        comment_date_time:
+          type: string
+          format: date-time
+          example: 2023-08-15T14:30:00Z
+      xml:
+        name: comment
+      required:
+        - id
+        - course_id
+        - author
+        - rating
+        - comment
+        - comment_date_time
