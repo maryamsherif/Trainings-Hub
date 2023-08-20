@@ -19,7 +19,6 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-
     @DeleteMapping("/deleteComment/{commentId}")
     public ResponseEntity<String> deleteComment(@PathVariable Long commentId) {
         Optional<Comment> optionalComment = commentRepository.findById(commentId);

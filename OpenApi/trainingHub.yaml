@@ -100,10 +100,10 @@ paths:
       parameters:
         - name: Category
           in: path
-          description: 'Category of the courses to retrieve: {0: "Beginner", 1: "Intermediate", 2: "Advanced"}'
+          description: Category of the courses to retrieve
           required: true
           schema:
-            type: integer
+            type: enum
             format: int64
       responses:
         '200':

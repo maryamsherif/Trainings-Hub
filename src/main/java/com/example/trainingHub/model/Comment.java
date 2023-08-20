@@ -27,5 +27,4 @@ public class Comment {
     @JoinColumn(name="course_id")
     @JsonBackReference
     private Course course;
-
 }
