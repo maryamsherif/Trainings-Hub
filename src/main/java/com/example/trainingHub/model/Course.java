@@ -1,28 +1,38 @@
 package com.example.trainingHub.model;
-
-
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "course")
 public class Course {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     private String description;
     private String category;
     private String instructorName;
-    private int rating;
+    private double rating;
     private String duration;
     private String content;
 
-    // Getters and setters
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
-    public Long getId() {
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -50,11 +60,11 @@ public class Course {
         this.instructorName = instructorName;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 
@@ -73,4 +83,10 @@ public class Course {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 }
+
+

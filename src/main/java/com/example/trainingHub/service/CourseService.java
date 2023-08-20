@@ -14,7 +14,7 @@ public class CourseService {
     private CourseRepository courseRepository; // Assuming you have a CourseRepository interface
 
     //getCourseById method
-    public Course getCourseById(Long courseId) {
+    public Course getCourseById(int courseId) {
         Optional<Course> optionalCourse = courseRepository.findById(courseId);
         return optionalCourse.orElse(null); // Return null if course is not found
     }
@@ -25,7 +25,7 @@ public class CourseService {
     }
 
     //updateCourse method
-    public Course updateCourse(Long courseId, Course course) {
+    public Course updateCourse(int courseId, Course course) {
         Optional<Course> optionalCourse = courseRepository.findById(courseId);
         if (optionalCourse.isPresent()) {
             Course existingCourse = optionalCourse.get();
