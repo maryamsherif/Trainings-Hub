@@ -100,6 +100,27 @@ public class CourseController {
         }
     }
 
+    @GetMapping("/getAllCourseComments/{courseId}")
+    public ResponseEntity <List<Comment>> getAllCourseComments(@PathVariable int courseId) {
+        List<Comment> comment = courseService.getAllCourseComment(courseId);
+        if (comment != null) {
+            return ResponseEntity.ok(comment);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/getAllCoursesByKeyword")
+    public ResponseEntity<List<Course>> searchCoursesByKeyword(@RequestParam String keyword) {
+        List<Course> courses = courseService.searchCoursesByKeyword(keyword);
+
+        if (!courses.isEmpty()) {
+            return ResponseEntity.ok(courses);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 }
 

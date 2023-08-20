@@ -5,7 +5,9 @@ import com.example.trainingHub.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import com.example.trainingHub.model.Comment;
 
 @Service
 public class CourseService {
@@ -39,5 +41,14 @@ public class CourseService {
             return null;
         }
     }
+
+    public List<Comment> getAllCourseComment(Integer courseId){
+        return courseRepository.findAllCommentsById(courseId);
+    }
+
+    public List<Course> searchCoursesByKeyword(String keyword) {
+        return courseRepository.searchCoursesByKeyword(keyword.toLowerCase());
+    }
+
     // Other methods for CRUD operations or business logic
 }
