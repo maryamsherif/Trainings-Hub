@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface CourseRepository extends JpaRepository<Course, Long> {
+public interface CourseRepository extends JpaRepository<Course, Integer> {
     List<Course> findAllByCategory(String category);
 
     @Query("SELECT AVG(c.rating) FROM Comment c WHERE c.course.id = :courseId")

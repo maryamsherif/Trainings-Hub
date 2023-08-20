@@ -3,27 +3,29 @@ package com.example.trainingHub.controller;
 import com.example.trainingHub.model.Comment;
 import com.example.trainingHub.model.Course;
 import com.example.trainingHub.repository.CourseRepository;
+import com.example.trainingHub.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
 @RestController
-@RequestMapping("/api")
 public class CourseController {
 
     @Autowired
     private CourseRepository courseRepository;
 
+    @Autowired
+    private CourseService courseService;
 
-    @GetMapping("/getCourseById/{courseId}") // Map to the URL from your OpenAPI definition
-    public ResponseEntity<Course> getCourseById(@PathVariable Long courseId) {
-        Course course = courseRepository.findById(courseId).orElse(null);
+    @GetMapping("/getCourseById/{courseId}")
+    public ResponseEntity<Course> getCourseById(@PathVariable int courseId) {
+        Course course = courseService.getCourseById(courseId);
         if (course != null) {
             return ResponseEntity.ok(course);
         } else {
@@ -62,9 +64,29 @@ public class CourseController {
             return ResponseEntity.notFound().build();
         }
     }
+    @PostMapping("/addCourse")
+    public ResponseEntity<Course> addCourse(@RequestBody Course course) {
+        Course addedCourse = courseService.addCourse(course);
+        if (addedCourse != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(addedCourse);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PutMapping("/updateCourse/{courseId}")
+    public ResponseEntity<Course> updateCourse(@PathVariable int courseId, @RequestBody Course course) {
+        Course updatedCourse = courseService.updateCourse(courseId, course);
+        if (updatedCourse != null) {
+            return ResponseEntity.ok(updatedCourse);
+
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @DeleteMapping("/deleteCourse/{courseId}")
-    public ResponseEntity<?> deleteCourse(@PathVariable Long courseId) {
+    public ResponseEntity<?> deleteCourse(@PathVariable int courseId) {
         // Check if the course exists (you need to implement this part)
         boolean courseExists = courseRepository.existsById(courseId);
 
@@ -77,6 +99,7 @@ public class CourseController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomErrorResponse(errorMessage));
         }
     }
+
 
 }
 
