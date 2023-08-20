@@ -7,3 +7,4 @@ CREATE TABLE comment (
     comment_date_time DATETIME NOT NULL,
     FOREIGN KEY (course_id) REFERENCES course(id)
 );
+
