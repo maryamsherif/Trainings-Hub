@@ -1,5 +1,7 @@
 package com.example.trainingHub.controller;
 
+import com.example.trainingHub.dto.commentdto;
+import com.example.trainingHub.model.Comment;
 import com.example.trainingHub.model.Course;
 import com.example.trainingHub.repository.CourseRepository;
 import com.example.trainingHub.service.CourseService;
@@ -8,12 +10,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
+@RequestMapping("/api")
 public class CourseController {
 
     @Autowired
     private CourseService courseService;
 
+    @GetMapping("/getAllCourses")
+    public ResponseEntity<List<Course>> getAllCourses(){
+        List<Course> courses = courseService.getAllCourses();
+        return ResponseEntity.status(HttpStatus.OK).body(courses);
+    }
     @GetMapping("/getCourseById/{courseId}")
     public ResponseEntity<Course> getCourseById(@PathVariable Long courseId) {
         Course course = courseService.getCourseById(courseId);
@@ -43,5 +53,17 @@ public class CourseController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/addComment/{courseId}")
+    public ResponseEntity<String> addComment(@PathVariable Integer courseId, @RequestBody commentdto commentdto) {
+        Boolean comment = courseService.createComment(commentdto, courseId);
+        if (comment) {
+            return ResponseEntity.ok("Comment added successfully !");
+        } else {
+            return ResponseEntity.badRequest().body("Invalid Input");
+        }
+    }
+
+
 }
 
