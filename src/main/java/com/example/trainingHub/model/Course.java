@@ -83,6 +83,21 @@ public class Course {
     public void setDuration(String duration) {
         this.duration = duration;
     }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 }
 
-}

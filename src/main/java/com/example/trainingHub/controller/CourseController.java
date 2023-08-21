@@ -36,7 +36,7 @@ public class CourseController {
         if (course != null) {
             return ResponseEntity.ok(course);
         } else {
-            return ResponseEntity.badRequest().body("Course with ID " + courseId + " not found.");
+            return ResponseEntity.badRequest().body(new CustomErrorResponse("Course with ID " + courseId + " not found."));
         }
     }
 
@@ -73,29 +73,30 @@ public class CourseController {
     }
     @PostMapping("/addCourse")
     public ResponseEntity<?> addCourse(@RequestBody Course course) {
-        Course addedCourse = courseService.addCourse(course);
-        if (addedCourse != null) {
+        try {
+            Course addedCourse = courseService.addCourse(course);
             return ResponseEntity.status(HttpStatus.CREATED).body(addedCourse);
-        } else {
-            return ResponseEntity.badRequest().body("Fields description, category, instructorName, duration, and content must not be null.");
+        } catch (RuntimeException e) {
+            CustomErrorResponse errorMsg=new CustomErrorResponse(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMsg);
         }
     }
 
-    @PutMapping("/updateCourse/{courseId}")
+    @PatchMapping("/updateCourse/{courseId}")
     public ResponseEntity<?> updateCourse(@PathVariable int courseId, @RequestBody Course course) {
         if (courseService.getCourseById(courseId)!=null) {
             if (course.getDescription() == null || course.getCategory() == null || course.getInstructorName() == null) {
-                return ResponseEntity.badRequest().body("Fields description, category, and instructorName must not be null.");
+                return ResponseEntity.badRequest().body(new CustomErrorResponse("Required fields are missing."));
             }
 
             if (course.getContent() == null) {
-                return ResponseEntity.badRequest().body("Field content must not be null.");
+                return ResponseEntity.badRequest().body(new CustomErrorResponse("Content is missing."));
             }
 
             Course updatedCourse = courseService.updateCourse(courseId, course);
             return ResponseEntity.ok(updatedCourse);
         } else {
-            return ResponseEntity.badRequest().body("Course with ID " + courseId + " not found.");
+            return ResponseEntity.badRequest().body(new CustomErrorResponse("Course with ID " + courseId + " not found."));
         }
         }
 
@@ -121,7 +122,7 @@ public class CourseController {
         if (comment != null) {
             return ResponseEntity.ok(comment);
         } else {
-            return ResponseEntity.badRequest().body("Cannot find comments for course with ID " + courseId + ".");
+            return ResponseEntity.badRequest().body(new CustomErrorResponse("Course with ID " + courseId + " not found."));
         }
     }
 
@@ -132,7 +133,7 @@ public class CourseController {
         if (!courses.isEmpty()) {
             return ResponseEntity.ok(courses);
         } else {
-            return ResponseEntity.badRequest().body("No courses found with keyword " + keyword);
+            return ResponseEntity.badRequest().body(new CustomErrorResponse("No courses found."));
         }
     }
 
