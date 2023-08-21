@@ -1,0 +1,321 @@
+openapi: 3.0.0
+info:
+  title: Training HUB
+  version: 1.0.11
+externalDocs:
+  description: Retrieves all the courses and comments information, you can search for  courses by courseId, courseCategory
+  url: http://swagger.io
+servers:
+  - url: https://localhost:8080
+tags:
+  - name: course
+    description: Everything about the courses
+paths:
+
+  /getAllCourses:
+    get:
+      tags:
+        - course
+      summary: Gets all courses
+      description: Gets all the courses in the database.
+      operationId: getAllCourses
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+  /getCourseByKeyword/{keyword}:
+    get:
+      tags:
+        - course
+      summary: Gets courses using keywords
+      description: gets all courses in the database using keywords
+      operationId: Keyword
+      parameters:
+        - name: keyword
+          in: path
+          description: All keywords which are related to the course
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+        '404':
+          description: Course not found
+
+  /getCourseById/{courseId}:
+    get:
+      tags:
+        - course
+      summary: Get course by ID
+      description: Retrieves a specific course by its ID.
+      operationId: getCourseById
+      parameters:
+        - name: courseId
+          in: path
+          description: ID of the course to retrieve
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        '404':
+          description: Course not found
+
+
+  /getCourseByCategory/{Category}:
+    get:
+      tags:
+        - course
+      summary: Get course by Category
+      description: Retrieves all courses by their category.
+      operationId: Category
+      parameters:
+        - name: Category
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [ "Beginner", "Intermediate", "Professional" ]
+
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        '404':
+          description: Invalid Category
+
+  /addCourse:
+    post:
+      tags:
+        - course
+      summary: Add a new course
+      operationId: addCourse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+      responses:
+        '200':
+          description: Course added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+
+  /updateCourse/{courseId}:
+    patch:
+      tags:
+        - course
+      summary: Update an existing course
+      operationId: editCourse
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+      responses:
+        '200':
+          description: Course edited successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        '404':
+          description: Course not found
+
+  /deleteCourse/{courseId}:
+    delete:
+      tags:
+        - course
+      summary: Delete a course
+      operationId: deleteCourse
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Course deleted successfully
+        '404':
+          description: Course not found
+
+
+  /getAllComments/{courseId}:
+    get:
+      summary: Get all comments for a specific course
+      tags:
+        - comment
+      operationId: getAllComments
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '206':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+
+
+  /addComment/{courseId}:
+    post:
+      tags:
+        - comment
+      summary: Add a new comment
+      description: Adds a new comment for a course.
+      operationId: addComment
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        '201':
+          description: Comment added successfully
+        '400':
+          description: Invalid input
+
+  /deleteComment/{commentId}:
+    delete:
+      tags:
+        - comment
+      summary: Delete a comment by ID
+      description: Deletes a comment for a course by its ID.
+      operationId: deleteComment
+      parameters:
+        - name: commentId
+          in: path
+          description: ID of the comment to be deleted
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '204':
+          description: Comment deleted successfully
+        '404':
+          description: Comment not found
+
+components:
+  schemas:
+    Course:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        description:
+          type: string
+          example: Spring Boot crash course
+        category:
+          type: string
+          description: Course Level
+          enum:
+            - Beginner
+            - Intermediate
+            - Professional
+        instructorName:
+          type: string
+          example: Mr. John
+        rating:
+          type: integer
+          format: int64
+          example: 4
+        duration:
+          type: integer
+          format: int64
+          example: 49.6
+        content:
+          type: string
+          example: https://www.udemy.com/course/the-ultimate-react-course/
+      xml:
+        name: course
+      required:
+        - id
+        - description
+        - category
+        - instructorName
+        - rating
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        author:
+          type: string
+          example: Mr. Ali
+        rating:
+          type: integer
+          format: int64
+          example: 4
+        comment:
+          type: string
+          example: This course helped me to get me my first job
+      xml:
+        name: comment
+      required:
+        - id
+        - author
+        - rating
+        - comment
