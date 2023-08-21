@@ -78,15 +78,15 @@ public class CourseController {
 
     @PostMapping("/addCourse")
     public ResponseEntity<?> addCourse(@RequestBody Course course) {
-        Course addedCourse = courseService.addCourse(course);
-        if (addedCourse != null) {
+        try {
+            Course addedCourse = courseService.addCourse(course);
             return ResponseEntity.status(HttpStatus.CREATED).body(new CustomResponse("Success", "201", addedCourse));
-        } else {
+        } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(new CustomResponse("Invalid Input", "400", new ArrayList<>()));
         }
     }
 
-    @PutMapping("/updateCourse/{courseId}")
+    @PatchMapping("/updateCourse/{courseId}")
     public ResponseEntity<?> updateCourse(@PathVariable int courseId, @RequestBody Course course) {
         if ( courseService.getCourseById(courseId) !=null ) {
             if (course.getDescription() == null || course.getCategory() == null || course.getInstructorName() == null) {
@@ -95,6 +95,7 @@ public class CourseController {
 
             if (course.getContent() == null) {
                 return ResponseEntity.badRequest().body(new CustomResponse("Invalid Input", "400", new ArrayList<>()));
+
             }
 
             Course updatedCourse = courseService.updateCourse(courseId, course);
@@ -138,6 +139,7 @@ public class CourseController {
         return ResponseEntity.ok(new CustomResponse("Success", "200", courses));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse("No courses found with keyword " + keyword, "404", courses));
+
         }
     }
 
