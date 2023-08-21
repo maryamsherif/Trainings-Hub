@@ -9,7 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,18 +29,18 @@ public class CourseController {
     private CourseService courseService;
 
     @GetMapping("/getAllCourses")
-    public ResponseEntity<List<Course>> getAllCourses(){
+    public ResponseEntity<Object> getAllCourses(){
         List<Course> courses = courseService.getAllCourses();
-        return ResponseEntity.status(HttpStatus.OK).body(courses);
+        return ResponseEntity.status(HttpStatus.OK).body(new CustomResponse("Success", "200", courses));
     }
 
     @GetMapping("/getCourseById/{courseId}")
     public ResponseEntity<?> getCourseById(@PathVariable int courseId) {
         Course course = courseService.getCourseById(courseId);
         if (course != null) {
-            return ResponseEntity.ok(course);
+            return ResponseEntity.ok(new CustomResponse("Success", "200", course));
         } else {
-            return ResponseEntity.badRequest().body("Course with ID " + courseId + " not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse("Course with ID " + courseId + " not found.", "404", new ArrayList<>()));
         }
     }
 
@@ -47,7 +51,7 @@ public class CourseController {
     }
 
     @GetMapping("/getCoursesByCategory/{category}")
-    public ResponseEntity<?> getCourseByCategory(@PathVariable String category) {
+    public ResponseEntity<Object> getCourseByCategory(@PathVariable String category) {
         // Validate input category against the enum values
         try {
             CourseCategory.valueOf(category.toLowerCase()); // Convert to uppercase for case-insensitivity
@@ -59,43 +63,44 @@ public class CourseController {
                                 .map(Enum::name)
                                 .collect(Collectors.toList()));
             String errorMessage = "Invalid category: " + category.toLowerCase() + ", the appropriate values are " + joinedCategories;
-            CustomErrorResponse errorResponse = new CustomErrorResponse(errorMessage);
+            CustomResponse errorResponse = new CustomResponse(errorMessage, "400", new ArrayList<>());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 
         }
 
         List<Course> courses = courseRepository.findAllByCategory(category);
         if (!courses.isEmpty()) {
-            return ResponseEntity.ok(courses);
+            return ResponseEntity.ok(new CustomResponse("Success", "200", courses));
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse("Category Not Found !", "404", new ArrayList<>()));
         }
     }
+
     @PostMapping("/addCourse")
     public ResponseEntity<?> addCourse(@RequestBody Course course) {
         Course addedCourse = courseService.addCourse(course);
         if (addedCourse != null) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(addedCourse);
+            return ResponseEntity.status(HttpStatus.CREATED).body(new CustomResponse("Success", "201", addedCourse));
         } else {
-            return ResponseEntity.badRequest().body("Fields description, category, instructorName, duration, and content must not be null.");
+            return ResponseEntity.badRequest().body(new CustomResponse("Invalid Input", "400", new ArrayList<>()));
         }
     }
 
     @PutMapping("/updateCourse/{courseId}")
     public ResponseEntity<?> updateCourse(@PathVariable int courseId, @RequestBody Course course) {
-        if (courseService.getCourseById(courseId)!=null) {
+        if ( courseService.getCourseById(courseId) !=null ) {
             if (course.getDescription() == null || course.getCategory() == null || course.getInstructorName() == null) {
-                return ResponseEntity.badRequest().body("Fields description, category, and instructorName must not be null.");
+                return ResponseEntity.badRequest().body(new CustomResponse("Invalid Input", "400", new ArrayList<>()));
             }
 
             if (course.getContent() == null) {
-                return ResponseEntity.badRequest().body("Field content must not be null.");
+                return ResponseEntity.badRequest().body(new CustomResponse("Invalid Input", "400", new ArrayList<>()));
             }
 
             Course updatedCourse = courseService.updateCourse(courseId, course);
-            return ResponseEntity.ok(updatedCourse);
+            return ResponseEntity.status(HttpStatus.CREATED).body(new CustomResponse("Success", "201", updatedCourse));
         } else {
-            return ResponseEntity.badRequest().body("Course with ID " + courseId + " not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse("Course with ID " + courseId + " not found.", "404", new ArrayList<>()));
         }
         }
 
@@ -108,10 +113,10 @@ public class CourseController {
         if (courseExists) {
             courseRepository.deleteById(courseId);
             String successMessage = "Course with ID " + courseId + " has been deleted.";
-            return ResponseEntity.ok(successMessage);
+            return ResponseEntity.ok(new CustomResponse("Success", "200", new ArrayList<>()));
         } else {
             String errorMessage = "Course with ID " + courseId + " not found.";
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomErrorResponse(errorMessage));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse(errorMessage, "404", new ArrayList<>()));
         }
     }
 
@@ -119,9 +124,9 @@ public class CourseController {
     public ResponseEntity <?> getAllCourseComments(@PathVariable int courseId) {
         List<Comment> comment = courseService.getAllCourseComment(courseId);
         if (comment != null) {
-            return ResponseEntity.ok(comment);
+            return ResponseEntity.ok(new CustomResponse("Success", "200", comment));
         } else {
-            return ResponseEntity.badRequest().body("Cannot find comments for course with ID " + courseId + ".");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse("Cannot find comments for course with ID " + courseId + ".", "404", new ArrayList<>()));
         }
     }
 
@@ -130,9 +135,9 @@ public class CourseController {
         List<Course> courses = courseService.searchCoursesByKeyword(keyword);
 
         if (!courses.isEmpty()) {
-            return ResponseEntity.ok(courses);
+        return ResponseEntity.ok(new CustomResponse("Success", "200", courses));
         } else {
-            return ResponseEntity.badRequest().body("No courses found with keyword " + keyword);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse("No courses found with keyword " + keyword, "404", courses));
         }
     }
 
