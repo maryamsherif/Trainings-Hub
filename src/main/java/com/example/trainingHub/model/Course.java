@@ -83,5 +83,6 @@ public class Course {
     public void setDuration(String duration) {
         this.duration = duration;
     }
+}
 
 }
