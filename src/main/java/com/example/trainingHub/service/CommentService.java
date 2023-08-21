@@ -72,10 +72,6 @@ public class CommentService {
 
         }
 
-        System.out.println(average);
-        System.out.println(comments.size());
-        System.out.println(average/(comments.size()+0.0));
-
         return average/(comments.size()+0.0) ;
 
     }

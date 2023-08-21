@@ -31,8 +31,6 @@ public class Course {
     @JsonManagedReference
     private List<Comment> comments;
 
-}
-    private List<Comment> comments;
 
     public List<Comment> getComments() {
         return comments;
@@ -85,4 +83,5 @@ public class Course {
     public void setDuration(String duration) {
         this.duration = duration;
     }
+}
 
