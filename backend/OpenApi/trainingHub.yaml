@@ -276,6 +276,9 @@ components:
         instructorName:
           type: string
           example: Mr. John
+        imgUrl:
+          type: string
+          example: https://img-b.udemycdn.com/course/240x135/806922_6310_3.jpg
         rating:
           type: integer
           format: int64
@@ -294,7 +297,10 @@ components:
         - description
         - category
         - instructorName
-        - rating
+
+
+
+
     Comment:
       type: object
       properties:
@@ -311,7 +317,7 @@ components:
           example: 4
         comment:
           type: string
-          example: This course helped me to get me my first job
+          example: This course helped me to get my first job
       xml:
         name: comment
       required:
