@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - front-end
+      - master
 
 jobs:
   build:
