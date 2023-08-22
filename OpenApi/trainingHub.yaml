@@ -9,7 +9,7 @@ servers:
   - url: https://localhost:8080
 tags:
   - name: course
-    description: Everything about the courses
+    description: Courses' endpoints
 paths:
 
   /getAllCourses:
@@ -28,6 +28,25 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Course'
+                example: { "status": "Success",
+                           "message": "200",
+                           "response": [
+                             {
+                               "id": 1,
+                               "description": "Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum.",
+                               "category": "Intermediate",
+                               "instructorName": "Rey Moriarty",
+                               "rating": 5.0,
+                               "duration": "29.08",
+                               "content": "Rey",
+                               "comments": [
+                                 {
+                                   "id": 128,
+                                   "author": "Finlay Mettetal",
+                                   "comment": "Donec semper sapien a libero. Nam dui.",
+                                   "rating": 5,
+                                   "comment_date_time": "2023-06-16T04:45:14"
+                                 }]}]}
             application/xml:
               schema:
                 type: array
@@ -53,16 +72,40 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Course'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Course'
+                example: {
+                  "status": "Success",
+                  "message": "200",
+                  "response": [
+                    {
+                      "id": 11,
+                      "description": "Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo.",
+                      "category": "Beginner",
+                      "instructorName": "Harmonia Gibbs",
+                      "rating": 5,
+                      "duration": "17.31",
+                      "content": "Harmonia",
+                      "comments": [
+                        {
+                          "id": 126,
+                          "author": "Jermaine Spraging",
+                          "comment": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio.",
+                          "rating": 5,
+                          "comment_date_time": "2022-11-15T23:31:03"
+                        }
+                      ]
+                    }
+                  ]}
         '404':
-          description: Course not found
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                example: {
+                  "status": "No courses found with keyword sdfghjk",
+                  "message": "404",
+                  "response": []
+                }
+
 
   /getCourseById/{courseId}:
     get:
@@ -84,10 +127,35 @@ paths:
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Course'
+              example: { "status": "Success",
+                         "message": "200",
+                         "response":
+                           {
+                             "id": 1,
+                             "description": "Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum.",
+                             "category": "Intermediate",
+                             "instructorName": "Rey Moriarty",
+                             "rating": 5.0,
+                             "duration": "29.08",
+                             "content": "Rey",
+                             "comments": [
+                               {
+                                 "id": 128,
+                                 "author": "Finlay Mettetal",
+                                 "comment": "Donec semper sapien a libero. Nam dui.",
+                                 "rating": 5,
+                                 "comment_date_time": "2023-06-16T04:45:14"
+                               }]}}
         '404':
-          description: Course not found
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                example: {
+                  "status": "Course with ID 2000 not found.",
+                  "message": "404",
+                  "response": []
+                }
 
 
   /getCourseByCategory/{Category}:
@@ -112,10 +180,39 @@ paths:
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Course'
+              example: {
+                "status": "Success",
+                "message": "200",
+                "response": [
+                  {
+                    "id": 11,
+                    "description": "Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo.",
+                    "category": "Beginner",
+                    "instructorName": "Harmonia Gibbs",
+                    "rating": 5,
+                    "duration": "17.31",
+                    "content": "Harmonia",
+                    "comments": [
+                      {
+                        "id": 126,
+                        "author": "Jermaine Spraging",
+                        "comment": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio.",
+                        "rating": 5,
+                        "comment_date_time": "2022-11-15T23:31:03"
+                      }
+                    ]
+                  }
+                ]}
         '400':
-          description: Invalid Category
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                example: {
+                  "status": "Invalid category: low, the appropriate values are beginner, intermediate, professional",
+                  "message": "400",
+                  "response": []
+                }
 
   /addCourse:
     post:
@@ -134,10 +231,30 @@ paths:
           description: Course added successfully
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Course'
+              example: {
+                "status": "Success",
+                "message": "201",
+                "response": {
+                  "id": 102,
+                  "description": "Spring Boot crash course",
+                  "category": "Beginner",
+                  "instructorName": "Mr. John",
+                  "rating": 4.0,
+                  "duration": "49.6",
+                  "content": "https://www.udemy.com/course/the-ultimate-react-course/",
+                  "comments": null
+                }
+              }
         '400':
           description: Invalid Input
+          content:
+            application/json:
+              schema:
+                example: {
+                  "status": "Invalid Input",
+                  "message": "400",
+                  "response": []
+                }
 
   /updateCourse/{courseId}:
     patch:
@@ -159,15 +276,43 @@ paths:
               $ref: '#/components/schemas/Course'
       responses:
         '201':
-          description: Course edited successfully
+          description: Course uppdated successfully
+          content:
+            application/json:
+              example: {
+                "status": "Success",
+                "message": "201",
+                "response": {
+                  "id": 102,
+                  "description": "Spring Boot crash course",
+                  "category": "Beginner",
+                  "instructorName": "Mr. John",
+                  "rating": 4.0,
+                  "duration": "49.6",
+                  "content": "https://www.udemy.com/course/the-ultimate-react-course/",
+                  "comments": null
+                }
+              }
+        '404':
+          description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Course'
-        '404':
-          description: Course not found
+                example: {
+                  "status": "Course with ID 2000 not found.",
+                  "message": "404",
+                  "response": []
+                }
         '400':
           description: Invalid Input
+          content:
+            application/json:
+              schema:
+                example: {
+                  "status": "Invalid Input",
+                  "message": "400",
+                  "response": []
+                }
 
   /deleteCourse/{courseId}:
     delete:
@@ -184,8 +329,25 @@ paths:
       responses:
         '200':
           description: Course deleted successfully
+          content:
+            application/json:
+              schema:
+                example: {
+                  "status": "Success",
+                  "message": "200",
+                  "response": []
+                }
+
         '404':
-          description: Course not found
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                example: {
+                  "status": "Course with ID 2000 not found.",
+                  "message": "404",
+                  "response": []
+                }
 
 
   /getAllComments/{courseId}:
@@ -205,13 +367,17 @@ paths:
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Comment'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Comment'
+              example: {
+                "status": "Success",
+                "message": "200",
+                "response": [ {
+                  "id": 205,
+                  "author": "Amera Salah",
+                  "comment": "This course helped me to get me my first job",
+                  "rating": 0,
+                  "comment_date_time": "2023-08-21T13:18:58"
+                }]
+              }
 
 
   /addComment/{courseId}:
@@ -236,8 +402,24 @@ paths:
       responses:
         '201':
           description: Comment added successfully
-        '400':
-          description: Invalid input
+          content:
+            application/json:
+              schema:
+                example: {
+                  "status": "Success",
+                  "message": "201",
+                  "response": []
+                }
+        '404':
+          description: Comment not found
+          content:
+            application/json:
+              schema:
+                example: {
+                  "status": "Invalid Input",
+                  "message": "400",
+                  "response": []
+                }
 
   /deleteComment/{commentId}:
     delete:
@@ -257,8 +439,24 @@ paths:
       responses:
         '200':
           description: Comment deleted successfully
+          content:
+            application/json:
+              schema:
+                example: {
+                  "status": "Success",
+                  "message": "200",
+                  "response": []
+                }
         '404':
           description: Comment not found
+          content:
+            application/json:
+              schema:
+                example: {
+                  "status": "Invalid Input",
+                  "message": "400",
+                  "response": []
+                }
 
 components:
   schemas:

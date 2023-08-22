@@ -3,6 +3,9 @@ package com.example.trainingHub.service;
 import com.example.trainingHub.model.Course;
 import com.example.trainingHub.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +18,10 @@ public class CourseService {
     @Autowired
     private CourseRepository courseRepository; // Assuming you have a CourseRepository interface
 
-    public List<Course> getAllCourses(){
-        return courseRepository.findAll();
+    public List<Course> getAllCourses(Integer page, Integer size){
+
+        Pageable paging = PageRequest.of(page, size);
+        return courseRepository.findAll(paging).getContent();
     }
 
     //getCourseById method
@@ -56,12 +61,14 @@ public class CourseService {
         }
     }
 
-    public List<Comment> getAllCourseComment(Integer courseId){
-        return courseRepository.findAllCommentsById(courseId);
+    public List<Comment> getAllCourseComment(Integer courseId, Integer page, Integer size ){
+        Pageable paging = PageRequest.of(page, size);
+        return courseRepository.findAllCommentsById(courseId, paging);
     }
 
-    public List<Course> searchCoursesByKeyword(String keyword) {
-        return courseRepository.searchCoursesByKeyword(keyword.toLowerCase());
+    public List<Course> searchCoursesByKeyword(String keyword, Integer page, Integer size) {
+        Pageable paging = PageRequest.of(page, size);
+        return courseRepository.searchCoursesByKeyword(keyword.toLowerCase(), paging);
     }
 
     // Other methods for CRUD operations or business logic
