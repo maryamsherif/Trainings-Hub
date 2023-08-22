@@ -104,7 +104,6 @@ paths:
           schema:
             type: string
             enum: [ "Beginner", "Intermediate", "Professional" ]
-
       responses:
         '200':
           description: Successful operation
@@ -112,7 +111,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Course'
-        '404':
+        '400':
           description: Invalid Category
 
   /addCourse:
@@ -128,12 +127,14 @@ paths:
             schema:
               $ref: '#/components/schemas/Course'
       responses:
-        '200':
+        '201':
           description: Course added successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Course'
+        '400':
+          description: Invalid Input
 
   /updateCourse/{courseId}:
     patch:
@@ -154,7 +155,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Course'
       responses:
-        '200':
+        '201':
           description: Course edited successfully
           content:
             application/json:
@@ -162,6 +163,8 @@ paths:
                 $ref: '#/components/schemas/Course'
         '404':
           description: Course not found
+        '400':
+          description: Invalid Input
 
   /deleteCourse/{courseId}:
     delete:
@@ -176,7 +179,7 @@ paths:
           schema:
             type: integer
       responses:
-        '204':
+        '200':
           description: Course deleted successfully
         '404':
           description: Course not found
@@ -195,7 +198,7 @@ paths:
           schema:
             type: integer
       responses:
-        '206':
+        '200':
           description: Successful operation
           content:
             application/json:
@@ -249,7 +252,7 @@ paths:
             type: integer
           example: 1
       responses:
-        '204':
+        '200':
           description: Comment deleted successfully
         '404':
           description: Comment not found
