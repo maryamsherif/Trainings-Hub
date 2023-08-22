@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
+import com.example.trainingHub.controller.CustomResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,7 +83,7 @@ public class CourseController {
             Course addedCourse = courseService.addCourse(course);
             return ResponseEntity.status(HttpStatus.CREATED).body(new CustomResponse("Success", "201", addedCourse));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(new CustomResponse("Invalid Input", "400", new ArrayList<>()));
+            return ResponseEntity.badRequest().body(new CustomResponse(e.getMessage(), "400", new ArrayList<>()));
         }
     }
 
@@ -90,11 +91,11 @@ public class CourseController {
     public ResponseEntity<?> updateCourse(@PathVariable int courseId, @RequestBody Course course) {
         if ( courseService.getCourseById(courseId) !=null ) {
             if (course.getDescription() == null || course.getCategory() == null || course.getInstructorName() == null) {
-                return ResponseEntity.badRequest().body(new CustomResponse("Invalid Input", "400", new ArrayList<>()));
+                return ResponseEntity.badRequest().body(new CustomResponse("Fields must not be null", "400", new ArrayList<>()));
             }
 
             if (course.getContent() == null) {
-                return ResponseEntity.badRequest().body(new CustomResponse("Invalid Input", "400", new ArrayList<>()));
+                return ResponseEntity.badRequest().body(new CustomResponse("Content must not be null", "400", new ArrayList<>()));
 
             }
 

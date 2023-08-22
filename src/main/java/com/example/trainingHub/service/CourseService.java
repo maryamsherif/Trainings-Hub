@@ -27,11 +27,6 @@ public class CourseService {
 
     //addCourse method
     public Course addCourse(Course course) {
-        int courseId = course.getId();
-
-        if (courseId != 0 && courseRepository.findById(courseId).isPresent()) {
-            throw new IllegalArgumentException("Course with ID " + courseId + " already exists.");
-        }
         try {
             return courseRepository.save(course);
         } catch (Exception e) {
