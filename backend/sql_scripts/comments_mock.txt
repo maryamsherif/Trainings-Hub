@@ -1,0 +1,261 @@
+Instructions to add all the comments at one go:
+1) Open a new tab in your browser.
+2) Go to any URL, google.com for example.
+3) Open devtools, using ctrl+shift+i or right-click -> inspect.
+4) Navigate to console tab inside the devtools (Most probably, you will be in the elements tab already).
+5) Copy and paste the below Js code in the console, then press enter.
+
+Do not forget:
+You must add the courses mock data first into the course database at your local computer.
+The server should be running :)
+
+const comments = [
+  {
+    course_id: 7,
+    rating: 3,
+    comment: "Awesome!",
+    author: "Puff Thibodeaux"
+  },
+  {
+    course_id: 6,
+    rating: 3,
+    comment: "I love it!",
+    author: "Stacee Ostler"
+  },
+  {
+    course_id: 4,
+    rating: 3,
+    comment: "Impressive!",
+    author: "Sada Samwyse"
+  },
+  {
+    course_id: 3,
+    rating: 5,
+    comment: "Excellent work!",
+    author: "Berkly Shrimptone"
+  },
+  {
+    course_id: 9,
+    rating: 2,
+    comment: "Great job!",
+    author: "Roseann Fockes"
+  },
+  {
+    course_id: 6,
+    rating: 1,
+    comment: "Bravo!",
+    author: "Averell Shenfish"
+  },
+  {
+    course_id: 9,
+    rating: 3,
+    comment: "Bravo!",
+    author: "Gayleen Demko"
+  },
+  {
+    course_id: 7,
+    rating: 2,
+    comment: "Outstanding!",
+    author: "Ernestus Hynes"
+  },
+  {
+    course_id: 5,
+    rating: 1,
+    comment: "Terrific!",
+    author: "Garnette Zum Felde"
+  },
+  {
+    course_id: 3,
+    rating: 2,
+    comment: "Superb!",
+    author: "Timi Ranns"
+  },
+  {
+    course_id: 5,
+    rating: 3,
+    comment: "Terrific!",
+    author: "Yolanthe Skrine"
+  },
+  {
+    course_id: 2,
+    rating: 1,
+    comment: "Well done!",
+    author: "Farrah Dyer"
+  },
+  {
+    course_id: 2,
+    rating: 1,
+    comment: "Incredible!",
+    author: "Elizabet Bushill"
+  },
+  {
+    course_id: 10,
+    rating: 1,
+    comment: "Remarkable!",
+    author: "Aida Georgiev"
+  },
+  {
+    course_id: 6,
+    rating: 5,
+    comment: "Great job!",
+    author: "Cesare Tabary"
+  },
+  {
+    course_id: 4,
+    rating: 5,
+    comment: "Superb!",
+    author: "Reinaldos Ruddy"
+  },
+  {
+    course_id: 2,
+    rating: 5,
+    comment: "Great job!",
+    author: "Adrianne Grigoriev"
+  },
+  {
+    course_id: 4,
+    rating: 2,
+    comment: "Fantastic!",
+    author: "Benedetta Gutowski"
+  },
+  {
+    course_id: 3,
+    rating: 4,
+    comment: "Fantastic!",
+    author: "Mair O'Farrell"
+  },
+  {
+    course_id: 9,
+    rating: 4,
+    comment: "Nice job!",
+    author: "Caprice Kroger"
+  },
+  {
+    course_id: 3,
+    rating: 5,
+    comment: "Fantastic!",
+    author: "Arel Duckfield"
+  },
+  {
+    course_id: 9,
+    rating: 1,
+    comment: "Thumbs up!",
+    author: "Peria Postans"
+  },
+  {
+    course_id: 5,
+    rating: 4,
+    comment: "Terrific!",
+    author: "Geneva April"
+  },
+  {
+    course_id: 7,
+    rating: 1,
+    comment: "Terrific!",
+    author: "Julee Bendan"
+  },
+  {
+    course_id: 2,
+    rating: 3,
+    comment: "Bravo!",
+    author: "Nike Galpin"
+  },
+  {
+    course_id: 4,
+    rating: 1,
+    comment: "Top-notch!",
+    author: "Bettine Sandwith"
+  },
+  {
+    course_id: 2,
+    rating: 1,
+    comment: "Kudos!",
+    author: "Tami Odlin"
+  },
+  {
+    course_id: 6,
+    rating: 4,
+    comment: "Fantastic!",
+    author: "Jilly Kemet"
+  },
+  {
+    course_id: 2,
+    rating: 3,
+    comment: "Fantastic!",
+    author: "Ezequiel Buzine"
+  },
+  {
+    course_id: 1,
+    rating: 4,
+    comment: "Phenomenal!",
+    author: "Zechariah Schulken"
+  },
+  {
+    course_id: 5,
+    rating: 3,
+    comment: "Top-notch!",
+    author: "Keven Farlowe"
+  },
+  {
+    course_id: 10,
+    rating: 3,
+    comment: "Excellent work!",
+    author: "Dyanna Bovingdon"
+  },
+  {
+    course_id: 1,
+    rating: 3,
+    comment: "Outstanding!",
+    author: "Christi Inglish"
+  },
+  {
+    course_id: 2,
+    rating: 4,
+    comment: "Keep it up!",
+    author: "Barb Stidston"
+  },
+  {
+    course_id: 9,
+    rating: 4,
+    comment: "Impressive!",
+    author: "Charlene Teodorski"
+  },
+  {
+    course_id: 5,
+    rating: 5,
+    comment: "Excellent work!",
+    author: "Rachelle Fierro"
+  },
+  {
+    course_id: 5,
+    rating: 4,
+    comment: "Bravo!",
+    author: "Lorelle Reinert"
+  },
+  {
+    course_id: 10,
+    rating: 5,
+    comment: "Top-notch!",
+    author: "Kaylil Janczyk"
+  },
+  {
+    course_id: 6,
+    rating: 2,
+    comment: "Kudos!",
+    author: "Cart Kurt"
+  },
+  {
+    course_id: 8,
+    rating: 4,
+    comment: "Outstanding!",
+    author: "Lorenzo Gilhespy"
+  }
+];
+
+for (const comment of comments){
+    const courseId = comment.course_id
+    delete comment.course_id
+    const URL = `http://localhost:8080/api/comment/addComment/${courseId}`
+    await fetch(URL, {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(comment)})
+}
+    
