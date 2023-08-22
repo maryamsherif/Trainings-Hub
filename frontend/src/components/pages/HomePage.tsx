@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import useFetch from "../../custom-hooks/useFetch";
-import { Course, CoursesResponse } from "../../types/types";
+import { Course, BackendResponse } from "../../types/types";
 import SearchBar from "../reusable/SearchBar/SearchBar";
 import CourseList from "../reusable/course/CourseList";
-import Card from "../reusable/layout/Card";
 import { useCourseContext } from "../../context/courseContext";
 
 export default function HomePage() {
   const { setCourses, courses } = useCourseContext();
-  const data = useFetch<CoursesResponse>({
+  const data = useFetch<BackendResponse<Course[]>>({
     endpoint: "course/getAllCourses",
   });
   useEffect(() => {
@@ -34,9 +33,9 @@ export default function HomePage() {
   }
 
   return (
-    <Card className="flex h-full">
+    <main className="flex flex-col mb-10 sm:flex-row">
       <SearchBar />
       {result || <CourseList courses={courses}></CourseList>}
-    </Card>
+    </main>
   );
 }

@@ -7,6 +7,15 @@ export type Course = {
   rating: number;
   duration: number;
   imgUrl: string;
+  comments: CourseComment[];
+};
+
+export type CourseComment = {
+  id: number;
+  author: string;
+  comment: string;
+  comment_date_time: string;
+  rating: number;
 };
 
 export interface FetchState<T> {
@@ -19,6 +28,6 @@ export type ActionType<T> =
   | { type: "complete"; res: T }
   | { type: "error"; message: string };
 
-export type CoursesResponse = Course[] | backendErrorResponse;
+export type BackendResponse<T> = T | backendErrorResponse;
 
 export type backendErrorResponse = { message: string; status: "error" };

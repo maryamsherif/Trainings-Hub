@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useCourseContext } from "../../../context/courseContext";
-import { CoursesResponse } from "../../../types/types";
+import { useCourseContext } from "../../../context/CourseContext";
+import { BackendResponse, Course } from "../../../types/types";
 import { fetchDataFromAPI } from "../../../utils";
 
 export default function SearchBar() {
@@ -14,7 +14,7 @@ export default function SearchBar() {
     const keyword = formData.get("keyword");
     const data = (await fetchDataFromAPI({
       endpoint: `course/getAllCoursesByKeyword?keyword=${keyword}`,
-    })) as CoursesResponse;
+    })) as BackendResponse<Course[]>;
 
     console.log(data);
 
@@ -28,7 +28,7 @@ export default function SearchBar() {
     if (category) {
       const data = (await fetchDataFromAPI({
         endpoint: `course/getCoursesByCategory/${category}`,
-      })) as CoursesResponse;
+      })) as BackendResponse<Course[]>;
       console.log(data);
       if (data && Array.isArray(data)) ctx.setCourses(data);
       else ctx.setCourses([]);
@@ -36,13 +36,12 @@ export default function SearchBar() {
   }
 
   return (
-    <aside className="max-w-md p-4 bg-white border-r-2 border-primary">
+    <aside className="mx-auto max-w-md px-1 py-4 bg-white border-r-0 sm:border-r-2 sm:border-primary">
       <form className="flex items-center gap-2 mb-6" onSubmit={submitHandler}>
         <input
           type="text"
           name="keyword"
-          // value={keyword}
-          className="block border-gray-400 border-2 rounded-md p-1 outline-none w-[170px]"
+          className="block border-gray-400 border-2 min-w-[200px] rounded-md p-1 outline-none"
           placeholder="Enter keyword to search for"
         />
         <button

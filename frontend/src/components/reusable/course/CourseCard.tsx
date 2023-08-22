@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 import { Course } from "../../../types/types";
-import starSvg from "../../../assets/star.svg";
-import clockSvg from "../../../assets/clock.svg";
 import classNames from "classnames";
 
 export default function CourseCard({ course }: { course: Course }) {
@@ -32,7 +30,7 @@ export default function CourseCard({ course }: { course: Course }) {
         >
           {course.title}
         </Link>
-        <p className="text-sm text-gray-600 mb-2">{course.instructorName}</p>
+        <p className="text-sm text-gray-600 mb-2">🙎🏻‍♂️ {course.instructorName}</p>
         <p className="text-sm line-clamp-3 text-gray-600 mb-3">
           {course.description}
         </p>

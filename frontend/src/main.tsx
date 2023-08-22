@@ -7,6 +7,9 @@ import "./index.css";
 import Root from "./components/pages/Root.tsx";
 import HomePage from "./components/pages/HomePage.tsx";
 import { CourseProvider } from "./context/courseContext.tsx";
+import CoursePage, {
+  loader as courseLoader,
+} from "./components/pages/CoursePage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -18,8 +21,9 @@ const router = createBrowserRouter([
         element: <HomePage></HomePage>,
       },
       {
-        path: "/course/:id",
-        element: <h1>Course</h1>,
+        path: "/course/:courseId",
+        element: <CoursePage></CoursePage>,
+        loader: courseLoader,
       },
     ],
   },
