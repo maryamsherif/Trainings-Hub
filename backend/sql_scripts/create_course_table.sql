@@ -7,5 +7,5 @@ CREATE TABLE course (
     rating DECIMAL(2,1) NOT NULL,
     duration FLOAT NOT NULL,
     content VARCHAR(255) NOT NULL,
-    imgUrl TEXT NOT NULL
+    img_url TEXT NOT NULL
 );
