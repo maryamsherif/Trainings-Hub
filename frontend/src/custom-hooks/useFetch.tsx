@@ -42,7 +42,7 @@ async function fetchData<T>({
   signal: AbortSignal;
 }) {
   try {
-    const response = await fetch(`${baseURL}${endpoint}`, {
+    const response = await fetch(`${baseURL}/${endpoint}`, {
       ...configurationOpt,
       signal,
     });
@@ -70,14 +70,12 @@ async function fetchData<T>({
 export default function useFetch<T>({
   endpoint,
   configurationOpt = {},
-  callback,
 }: {
   endpoint: string;
   configurationOpt?: RequestInit;
   callback?: (data: T | null) => T | null;
 }): FetchState<T> {
   const [fetchState, dispatch] = useReducer(reducerFunction, initialState);
-  let modifiedFetchState: FetchState<T> | undefined;
 
   useEffect(() => {
     const controller = new AbortController();
@@ -88,13 +86,5 @@ export default function useFetch<T>({
     return () => controller.abort();
   }, [endpoint]);
 
-  if (callback && fetchState.response) {
-    const newData = callback(fetchState.response);
-
-    if (newData) {
-      modifiedFetchState = { ...fetchState, response: newData };
-    }
-  }
-
-  return modifiedFetchState || fetchState;
+  return fetchState as FetchState<T>;
 }

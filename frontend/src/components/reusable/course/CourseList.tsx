@@ -9,7 +9,7 @@ export default function CourseList({ courses }: { courses: Course[] }) {
       <CourseCard key={course.id} course={course}></CourseCard>
     ));
   return (
-    <Card className="flex gap-8 flex-wrap sm:gap-6 md:gap-4 justify-center">
+    <Card className="flex gap-8 flex-wrap sm:gap-6 md:gap-4 justify-center w-full">
       {coursesList}
     </Card>
   );

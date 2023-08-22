@@ -4,7 +4,9 @@ export type Course = {
   description: string;
   category: "Beginner" | "Intermediate" | "Professional";
   instructorName: string;
-  ratings: number;
+  rating: number;
+  duration: number;
+  imgUrl: string;
 };
 
 export interface FetchState<T> {
@@ -12,6 +14,11 @@ export interface FetchState<T> {
   response: T | null;
   errorMessage: string | null;
 }
+
 export type ActionType<T> =
   | { type: "complete"; res: T }
   | { type: "error"; message: string };
+
+export type CoursesResponse = Course[] | backendErrorResponse;
+
+export type backendErrorResponse = { message: string; status: "error" };
