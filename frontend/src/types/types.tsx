@@ -31,3 +31,9 @@ export type ActionType<T> =
 export type BackendResponse<T> = T | backendErrorResponse;
 
 export type backendErrorResponse = { message: string; status: "error" };
+
+declare global {
+  interface Response {
+    message?: string;
+  }
+}

@@ -3,7 +3,7 @@ import useFetch from "../../custom-hooks/useFetch";
 import { Course, BackendResponse } from "../../types/types";
 import SearchBar from "../reusable/SearchBar/SearchBar";
 import CourseList from "../reusable/course/CourseList";
-import { useCourseContext } from "../../context/courseContext";
+import { useCourseContext } from "../../context/CourseContext";
 
 export default function HomePage() {
   const { setCourses, courses } = useCourseContext();

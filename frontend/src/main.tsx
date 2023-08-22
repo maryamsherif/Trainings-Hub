@@ -6,7 +6,7 @@ import "./index.css";
 
 import Root from "./components/pages/Root.tsx";
 import HomePage from "./components/pages/HomePage.tsx";
-import { CourseProvider } from "./context/courseContext.tsx";
+import { CourseProvider } from "./context/CourseContext.tsx";
 import CoursePage, {
   loader as courseLoader,
 } from "./components/pages/CoursePage.tsx";

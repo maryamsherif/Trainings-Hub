@@ -42,13 +42,13 @@ async function fetchData<T>({
   signal: AbortSignal;
 }) {
   try {
-    const response = await fetch(`${baseURL}/${endpoint}`, {
+    const response = (await fetch(`${baseURL}/${endpoint}`, {
       ...configurationOpt,
       signal,
-    });
+    })) as Response;
 
     if (!response.ok) {
-      dispatch({ type: "error", message: response.message });
+      dispatch({ type: "error", message: response.message as string });
       return;
     }
 
