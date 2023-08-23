@@ -27,7 +27,7 @@ public class CourseService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public List<Course> getAllCourses(Integer page, Integer size){
+    public List<Course> getAllCourses(Integer page, Integer size ){
 
         Pageable paging = PageRequest.of(page, size);
         return courseRepository.findAll(paging).getContent();
