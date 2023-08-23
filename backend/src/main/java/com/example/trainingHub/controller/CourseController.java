@@ -5,6 +5,8 @@ import com.example.trainingHub.model.Course;
 import com.example.trainingHub.repository.CourseRepository;
 import com.example.trainingHub.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
@@ -34,8 +36,9 @@ public class CourseController {
     private CourseService courseService;
 
     @GetMapping("/getAllCourses")
-    public ResponseEntity<Object> getAllCourses(){
-        List<Course> courses = courseService.getAllCourses();
+    public ResponseEntity<Object> getAllCourses(@RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "5") int size ){
+        List<Course> courses = courseService.getAllCourses(page, size);
         return ResponseEntity.status(HttpStatus.OK).body(new CustomResponse("Success", "200", courses));
     }
 
@@ -56,7 +59,9 @@ public class CourseController {
     }
 
     @GetMapping("/getCoursesByCategory/{category}")
-    public ResponseEntity<Object> getCourseByCategory(@PathVariable String category) {
+    public ResponseEntity<Object> getCourseByCategory(@PathVariable String category,
+                                                      @RequestParam(defaultValue = "0") int page,
+                                                      @RequestParam(defaultValue = "5") int size) {
         // Validate input category against the enum values
         try {
             CourseCategory.valueOf(category.toLowerCase()); // Convert to uppercase for case-insensitivity
@@ -72,8 +77,8 @@ public class CourseController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 
         }
-
-        List<Course> courses = courseRepository.findAllByCategory(category);
+        Pageable paging = PageRequest.of(page, size);
+        List<Course> courses = courseRepository.findAllByCategory(category, paging);
         if (!courses.isEmpty()) {
             return ResponseEntity.ok(new CustomResponse("Success", "200", courses));
         } else {
@@ -127,8 +132,10 @@ public class CourseController {
     }
 
     @GetMapping("/getAllCourseComments/{courseId}")
-    public ResponseEntity <?> getAllCourseComments(@PathVariable int courseId) {
-        List<Comment> comment = courseService.getAllCourseComment(courseId);
+    public ResponseEntity <?> getAllCourseComments(@PathVariable int courseId,
+                                                   @RequestParam(defaultValue = "0") int page,
+                                                   @RequestParam(defaultValue = "5") int size) {
+        List<Comment> comment = courseService.getAllCourseComment(courseId,page,size);
         if (comment != null) {
             return ResponseEntity.ok(new CustomResponse("Success", "200", comment));
         } else {
@@ -137,8 +144,10 @@ public class CourseController {
     }
 
     @GetMapping("/getAllCoursesByKeyword")
-    public ResponseEntity<?> searchCoursesByKeyword(@RequestParam String keyword) {
-        List<Course> courses = courseService.searchCoursesByKeyword(keyword);
+    public ResponseEntity<?> searchCoursesByKeyword(@RequestParam String keyword,
+                                                    @RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "5") int size) {
+        List<Course> courses = courseService.searchCoursesByKeyword(keyword, page,size);
 
         if (!courses.isEmpty()) {
         return ResponseEntity.ok(new CustomResponse("Success", "200", courses));
