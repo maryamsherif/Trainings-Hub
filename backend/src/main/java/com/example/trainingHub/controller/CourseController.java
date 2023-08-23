@@ -10,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 import com.example.trainingHub.controller.CustomResponse;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -145,6 +147,37 @@ public class CourseController {
 
         }
     }
+
+    @PostMapping("/bulkInsertPath")
+    public ResponseEntity<?> bulkInsertByPath(@RequestParam String csvPath) {
+        try {
+            courseService.bulkUploadFromCsv(csvPath);
+            return ResponseEntity.status(HttpStatus.CREATED).body(new CustomResponse("Success", "201", new ArrayList<>()));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(new CustomResponse(e.getMessage(), "400", new ArrayList<>()));
+        }
+    }
+
+    @PostMapping("/bulkInsertCSV")
+    public ResponseEntity<?>  bulkInsertCSV(@RequestParam("file") MultipartFile file) {
+        if (!file.isEmpty()) {
+            try {
+                courseService.bulkInsertFromCsv(file.getInputStream());
+                return ResponseEntity.status(HttpStatus.CREATED).body(new CustomResponse("Success", "201", new ArrayList<>()));
+            }
+            catch (IOException e)
+            {
+                return ResponseEntity.badRequest().body(new CustomResponse(e.getMessage(), "400", new ArrayList<>()));
+            }
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse("File not found", "404", new ArrayList<>()));
+
+        }
+
+    }
+
 
 
 }
