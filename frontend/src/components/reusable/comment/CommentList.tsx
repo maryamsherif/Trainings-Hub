@@ -15,12 +15,12 @@ export default function CommentList({
     );
   } else {
     results = comments.map((comment) => (
-      <Comment key={comment.id} comment={comment}></Comment>
+      <Comment key={comment.id} comment={comment} />
     ));
   }
   return (
     <section className="">
-      <h4 className="block w-full text-lg font-bold text-gray-700">Review:</h4>
+      <h4 className="block w-full text-lg font-bold text-gray-700">Reviews:</h4>
       <div className="flex flex-wrap gap-2">{results}</div>
     </section>
   );

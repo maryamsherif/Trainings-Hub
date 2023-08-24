@@ -11,7 +11,7 @@ interface CourseContextType {
 const CourseContext = createContext<CourseContextType | undefined>(undefined);
 
 // Create a provider component
-export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
+export function CourseProvider({ children }: { children: React.ReactNode }) {
   const [courses, _setCourses] = useState<Course[]>([]);
 
   const setCourses = (courses: Course[]) => {
@@ -23,7 +23,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
       {children}
     </CourseContext.Provider>
   );
-};
+}
 
 // Custom hook to access the context
 export const useCourseContext = () => {

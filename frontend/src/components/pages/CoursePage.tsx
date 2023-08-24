@@ -1,11 +1,17 @@
 import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import { fetchDataFromAPI } from "../../utils";
-import { Course } from "../../types/types";
+import { Course, backendSuccessResponse } from "../../types/types";
 import CommentList from "../reusable/comment/CommentList";
+import AddComment from "../reusable/comment/AddComment";
+import { useState } from "react";
+import ReviewStarsContextProvider from "../../context/ReviewStarsContext";
 
 export default function CoursePage() {
-  const course = useLoaderData() as Course;
-  console.log(course);
+  const { response: _course } =
+    useLoaderData() as unknown as backendSuccessResponse<Course>;
+
+  const [course, setCourse] = useState(_course);
+
   return (
     <main className="px-16">
       <div className="flex justify-center bg-slate-600/30 p-8 rounded-lg w-[70%] mb-8 mx-auto">
@@ -37,6 +43,9 @@ export default function CoursePage() {
         </div>
       </div>
       <CommentList comments={course.comments}></CommentList>
+      <ReviewStarsContextProvider>
+        <AddComment course={course} setCourse={setCourse} />
+      </ReviewStarsContextProvider>
     </main>
   );
 }

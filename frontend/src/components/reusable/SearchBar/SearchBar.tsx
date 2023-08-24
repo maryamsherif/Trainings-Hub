@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useCourseContext } from "../../../context/CourseContext";
-import { BackendResponse, Course } from "../../../types/types";
+import { Course, backendSuccessResponse } from "../../../types/types";
 import { fetchDataFromAPI } from "../../../utils";
 
 export default function SearchBar() {
@@ -12,13 +12,14 @@ export default function SearchBar() {
     setCategory("");
     const formData = new FormData(event.target as HTMLFormElement);
     const keyword = formData.get("keyword");
-    const data = (await fetchDataFromAPI({
+    const data: backendSuccessResponse<Course[]> = await fetchDataFromAPI({
       endpoint: `course/getAllCoursesByKeyword?keyword=${keyword}`,
-    })) as BackendResponse<Course[]>;
+    });
 
     console.log(data);
 
-    if (data && Array.isArray(data)) ctx.setCourses(data);
+    if (data && Array.isArray(data.response))
+      ctx.setCourses(data.response as Course[]);
     else ctx.setCourses([]);
   }
 
@@ -28,9 +29,9 @@ export default function SearchBar() {
     if (category) {
       const data = (await fetchDataFromAPI({
         endpoint: `course/getCoursesByCategory/${category}`,
-      })) as BackendResponse<Course[]>;
+      })) as backendSuccessResponse<Course[]>;
       console.log(data);
-      if (data && Array.isArray(data)) ctx.setCourses(data);
+      if (data && Array.isArray(data.response)) ctx.setCourses(data.response);
       else ctx.setCourses([]);
     }
   }
@@ -41,13 +42,10 @@ export default function SearchBar() {
         <input
           type="text"
           name="keyword"
-          className="block border-gray-400 border-2 min-w-[200px] rounded-md p-1 outline-none"
+          className="input"
           placeholder="Enter keyword to search for"
         />
-        <button
-          className="bg-blue-600 hover:bg-blue-700 text-white p-1 rounded-md transition-all ease-linear"
-          type="submit"
-        >
+        <button className="btn-red" type="submit">
           Search
         </button>
       </form>

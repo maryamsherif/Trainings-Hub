@@ -1,18 +1,19 @@
 import { useEffect } from "react";
 import useFetch from "../../custom-hooks/useFetch";
-import { Course, BackendResponse } from "../../types/types";
-import SearchBar from "../reusable/SearchBar/SearchBar";
+import { Course, backendSuccessResponse } from "../../types/types";
+import SearchBar from "../reusable/searchBar/SearchBar";
 import CourseList from "../reusable/course/CourseList";
 import { useCourseContext } from "../../context/CourseContext";
 
 export default function HomePage() {
   const { setCourses, courses } = useCourseContext();
-  const data = useFetch<BackendResponse<Course[]>>({
+  const data = useFetch<backendSuccessResponse<Course[]>>({
     endpoint: "course/getAllCourses",
   });
+  console.log(data.response);
   useEffect(() => {
-    if (data.state === "complete" && Array.isArray(data.response)) {
-      setCourses(data.response as Course[]);
+    if (data.state === "complete" && Array.isArray(data.response?.response)) {
+      setCourses(data.response?.response as Course[]);
     }
   }, [data.state]);
   let result;
@@ -31,6 +32,7 @@ export default function HomePage() {
       </div>
     );
   }
+  console.log({ courses });
 
   return (
     <main className="flex flex-col mb-10 sm:flex-row">
