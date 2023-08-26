@@ -563,6 +563,52 @@ paths:
     "response": []
 }
 
+  /bulkInsertPath:
+    post:
+      tags:
+        - course
+      summary: Bulk insert data from CSV file given it local path
+      operationId: bulkInsertPath
+      parameters:
+        - name: csvPath
+          in: query
+          required: true
+          schema:
+            type: string
+            format: byte
+          description: URL-encoded path to the CSV file  
+      responses:
+        '201':
+          description: Courses added successfully
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "Courses added successfully !",
+    "status": "201",
+    "response": []
+     }
+        '400':
+          description: Invalid Inout
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "Invalid Input",
+    "status": "400",
+    "response": []
+    }
+        '404':
+          description: File not found
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "File not found",
+    "status": "404",
+    "response": []
+    }
+
 
 components:
   schemas:
