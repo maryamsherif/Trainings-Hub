@@ -13,8 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class CustomResponse {
-    private String status;
     private String message;
+    private String status;
     private Object response ;
 
 }

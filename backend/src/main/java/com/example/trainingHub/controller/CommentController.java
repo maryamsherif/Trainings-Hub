@@ -26,26 +26,38 @@ public class CommentController {
 
     @DeleteMapping("/deleteComment/{commentId}")
     public ResponseEntity<Object> deleteComment(@PathVariable Integer commentId) {
-        Boolean response = commentService.deleteComment(commentId);
+        try {
+            Boolean response = commentService.deleteComment(commentId);
 
-        if (response) {
+            if (response) {
 
-            return ResponseEntity.ok(new CustomResponse("Success", "200", new ArrayList<>()));
+                return ResponseEntity.ok(new CustomResponse("Success", "200", new ArrayList<>()));
+            }
+            else
+            {
+                String errorMessage = "Comment with ID " + commentId + " not found";
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse(errorMessage, "404",  new ArrayList<>()));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomResponse(e.getMessage(), "400",  new ArrayList<>()));
         }
-        else
-        {
-            String errorMessage = "Comment with ID " + commentId + " not found";
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse(errorMessage, "404",  new ArrayList<>()));
-        }
+
+
     }
 
     @PostMapping("/addComment/{courseId}")
     public ResponseEntity<Object> addComment(@PathVariable Integer courseId, @RequestBody commentdto commentdto) {
-        Boolean comment = commentService.createComment(commentdto, courseId);
-        if (comment) {
-            return ResponseEntity.ok(new CustomResponse("Success", "201",  new ArrayList<>()));
-        } else {
-            return ResponseEntity.badRequest().body(new CustomResponse("Invalid Input", "400",  new ArrayList<>()));
+        try
+        {
+            Boolean comment = commentService.createComment(commentdto, courseId);
+            if (comment) {
+                return ResponseEntity.ok(new CustomResponse("Success", "201",  new ArrayList<>()));
+            } else {
+                return ResponseEntity.badRequest().body(new CustomResponse("Invalid Input", "400",  new ArrayList<>()));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomResponse(e.getMessage(), "400",  new ArrayList<>()));
         }
+
     }
 }

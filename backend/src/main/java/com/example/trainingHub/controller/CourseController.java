@@ -38,17 +38,30 @@ public class CourseController {
     @GetMapping("/getAllCourses")
     public ResponseEntity<Object> getAllCourses(@RequestParam(defaultValue = "0") int page,
                                                 @RequestParam(defaultValue = "5") int size ){
-        List<Course> courses = courseService.getAllCourses(page, size);
-        return ResponseEntity.status(HttpStatus.OK).body(new CustomResponse("Success", "200", courses));
-    }
+        try
+        {
+            List<Course> courses = courseService.getAllCourses(page, size);
+            return ResponseEntity.status(HttpStatus.OK).body(new CustomResponse("Success", "200", courses));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomResponse(e.getMessage(), "400",  new ArrayList<>()));
+        }
+
+   }
 
     @GetMapping("/getCourseById/{courseId}")
     public ResponseEntity<?> getCourseById(@PathVariable int courseId) {
-        Course course = courseService.getCourseById(courseId);
-        if (course != null) {
-            return ResponseEntity.ok(new CustomResponse("Success", "200", course));
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse("Course with ID " + courseId + " not found.", "404", new ArrayList<>()));
+        try
+        {
+            Course course = courseService.getCourseById(courseId);
+            if (course != null) {
+                return ResponseEntity.ok(new CustomResponse("Success", "200", course));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse("Course with ID " + courseId + " not found.", "404", new ArrayList<>()));
+            }
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomResponse(e.getMessage(), "400",  new ArrayList<>()));
         }
     }
 
@@ -135,26 +148,38 @@ public class CourseController {
     public ResponseEntity <?> getAllCourseComments(@PathVariable int courseId,
                                                    @RequestParam(defaultValue = "0") int page,
                                                    @RequestParam(defaultValue = "5") int size) {
-        List<Comment> comment = courseService.getAllCourseComment(courseId,page,size);
-        if (comment != null) {
-            return ResponseEntity.ok(new CustomResponse("Success", "200", comment));
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse("Cannot find comments for course with ID " + courseId + ".", "404", new ArrayList<>()));
+        try
+        {
+            List<Comment> comment = courseService.getAllCourseComment(courseId,page,size);
+            if (comment != null) {
+                return ResponseEntity.ok(new CustomResponse("Success", "200", comment));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse("Cannot find comments for course with ID " + courseId + ".", "404", new ArrayList<>()));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomResponse(e.getMessage(), "400",  new ArrayList<>()));
         }
+
     }
 
     @GetMapping("/getAllCoursesByKeyword")
     public ResponseEntity<?> searchCoursesByKeyword(@RequestParam String keyword,
                                                     @RequestParam(defaultValue = "0") int page,
                                                     @RequestParam(defaultValue = "5") int size) {
-        List<Course> courses = courseService.searchCoursesByKeyword(keyword, page,size);
+        try
+        {
+            List<Course> courses = courseService.searchCoursesByKeyword(keyword, page,size);
 
-        if (!courses.isEmpty()) {
-        return ResponseEntity.ok(new CustomResponse("Success", "200", courses));
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse("No courses found with keyword " + keyword, "404", courses));
+            if (!courses.isEmpty()) {
+                return ResponseEntity.ok(new CustomResponse("Success", "200", courses));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomResponse("No courses found with keyword " + keyword, "404", courses));
 
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomResponse("Bad Request", "400", new ArrayList<>()));
         }
+
     }
 
     @PostMapping("/bulkInsertPath")
@@ -174,8 +199,7 @@ public class CourseController {
                 courseService.bulkInsertFromCsv(file.getInputStream());
                 return ResponseEntity.status(HttpStatus.CREATED).body(new CustomResponse("Success", "201", new ArrayList<>()));
             }
-            catch (IOException e)
-            {
+           catch (Exception e) {
                 return ResponseEntity.badRequest().body(new CustomResponse(e.getMessage(), "400", new ArrayList<>()));
             }
         }

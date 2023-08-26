@@ -3,6 +3,7 @@ package com.example.trainingHub.service;
 import com.example.trainingHub.model.Course;
 import com.example.trainingHub.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -133,31 +134,37 @@ public class CourseService {
         }
     }
 
-    public void bulkInsertFromCsv(InputStream inputStream) {
+    public void bulkInsertFromCsv(InputStream inputStream) throws Exception {
 
         List<Course> courses = parseDataFromCSVFile(inputStream);
 
         String sql = "INSERT INTO COURSE (id, content, duration, instructor_name, description, category, rating) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
-            @Override
-            public void setValues(PreparedStatement ps, int i) throws SQLException {
-                Course course = courses.get(i);
-                ps.setInt(1, course.getId());
-                ps.setString(2, course.getContent());
-                ps.setString(3, course.getDuration());
-                ps.setString(4, course.getInstructorName());
-                ps.setString(5, course.getDescription());
-                ps.setString(6, course.getCategory());
-                ps.setDouble(7, course.getRating());
-            }
+        try
+        {
+            jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+                @Override
+                public void setValues(PreparedStatement ps, int i) throws SQLException {
+                    Course course = courses.get(i);
+                    ps.setInt(1, course.getId());
+                    ps.setString(2, course.getContent());
+                    ps.setString(3, course.getDuration());
+                    ps.setString(4, course.getInstructorName());
+                    ps.setString(5, course.getDescription());
+                    ps.setString(6, course.getCategory());
+                    ps.setDouble(7, course.getRating());
+                }
 
-            @Override
-            public int getBatchSize() {
-                return courses.size();
-            }
-        });
+                @Override
+                public int getBatchSize() {
+                    return courses.size();
+                }
+            });
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+
 
     }
 
