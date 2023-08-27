@@ -1,19 +1,21 @@
-import { useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+
+import { useContext, useEffect } from "react";
 import useFetch from "../../custom-hooks/useFetch";
 import { Course, backendSuccessResponse } from "../../types/types";
-import SearchBar from "../reusable/searchBar/SearchBar";
+import SearchBar from "../reusable/searchBar/SearchBar.tsx";
 import CourseList from "../reusable/course/CourseList";
-import { useCourseContext } from "../../context/CourseContext";
+import { CourseContext } from "../../context/CourseContext";
+import DeleteModal from "../reusable/modal/DeleteModal.tsx";
 
 export default function HomePage() {
-  const { setCourses, courses } = useCourseContext();
+  const { courseSetters, courses } = useContext(CourseContext);
   const data = useFetch<backendSuccessResponse<Course[]>>({
     endpoint: "course/getAllCourses",
   });
-  console.log(data.response);
   useEffect(() => {
     if (data.state === "complete" && Array.isArray(data.response?.response)) {
-      setCourses(data.response?.response as Course[]);
+      courseSetters?.setCourses(data.response?.response as Course[]);
     }
   }, [data.state]);
   let result;

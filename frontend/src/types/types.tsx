@@ -7,6 +7,7 @@ export type Course = {
   rating: number;
   duration: number;
   imgUrl: string;
+  content: string;
   comments: CourseComment[];
 };
 

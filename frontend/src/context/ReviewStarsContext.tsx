@@ -1,10 +1,9 @@
 import { createContext, useReducer } from "react";
 import { Rating } from "../types/types";
 
-export type StarsContext = {
-  state: StarsState;
+export type StarsContext = StarsState & {
   eventHandlers?: EventHandlers;
-  reset: () => void;
+  reset?: () => void;
 };
 
 export type EventHandlers = {
@@ -70,7 +69,7 @@ function reducerFunction(
   return { ...state, stars };
 }
 
-const initialState: StarsState = {
+const initialState: StarsContext = {
   stars: [
     { rating: 1, blur: false, full: true },
     { rating: 2, blur: false, full: false },
@@ -88,7 +87,10 @@ export default function ReviewStarsContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [state, dispatch] = useReducer(reducerFunction, initialState);
+  const [{ stars, currentRating }, dispatch] = useReducer(
+    reducerFunction,
+    initialState
+  );
   function mouseEnter(rating: Rating) {
     dispatch({ type: "hover", rating });
   }
@@ -104,7 +106,8 @@ export default function ReviewStarsContextProvider({
   return (
     <ReviewStarsContext.Provider
       value={{
-        state,
+        stars,
+        currentRating,
         reset,
         eventHandlers: { mouseClick, mouseLeave, mouseEnter },
       }}

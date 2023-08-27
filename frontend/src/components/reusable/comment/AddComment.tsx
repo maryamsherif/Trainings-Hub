@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { ReviewStarsContext } from "../../../context/ReviewStarsContext";
 import ReviewStars from "../review/ReviewStars";
 import CommentAuthorPhoto from "./CommentAuthorPhoto";
@@ -9,7 +9,7 @@ export default function AddComment({
   setCourse,
   course,
 }: {
-  setCourse: Dispatch<SetStateAction<Course>>;
+  setCourse: (course: Course) => void;
   course: Course;
 }) {
   const [comment, setComment] = useState("");
@@ -23,7 +23,8 @@ export default function AddComment({
     const body = {
       author,
       comment,
-      rating: ctx.state.currentRating as Rating,
+
+      rating: ctx.currentRating as Rating,
       comment_date_time: new Date().toISOString() as string,
     };
     const data = (await fetchDataFromAPI({
@@ -38,7 +39,7 @@ export default function AddComment({
       setComment("");
       setAuthor("");
       setError("");
-      ctx.reset();
+      ctx.reset?.();
       setCourse({
         ...course,
         comments: [

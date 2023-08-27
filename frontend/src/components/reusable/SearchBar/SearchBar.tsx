@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { useCourseContext } from "../../../context/CourseContext";
+import { useContext, useState } from "react";
+import { CourseContext } from "../../../context/CourseContext";
 import { Course, backendSuccessResponse } from "../../../types/types";
 import { fetchDataFromAPI } from "../../../utils";
 
 export default function SearchBar() {
   const [category, setCategory] = useState("");
-  const ctx = useCourseContext();
+  const { courseSetters } = useContext(CourseContext);
 
   async function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -19,8 +19,8 @@ export default function SearchBar() {
     console.log(data);
 
     if (data && Array.isArray(data.response))
-      ctx.setCourses(data.response as Course[]);
-    else ctx.setCourses([]);
+      courseSetters?.setCourses(data.response as Course[]);
+    else courseSetters?.setCourses([]);
   }
 
   async function categoryHandler(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -31,8 +31,9 @@ export default function SearchBar() {
         endpoint: `course/getCoursesByCategory/${category}`,
       })) as backendSuccessResponse<Course[]>;
       console.log(data);
-      if (data && Array.isArray(data.response)) ctx.setCourses(data.response);
-      else ctx.setCourses([]);
+      if (data && Array.isArray(data.response))
+        courseSetters?.setCourses(data.response);
+      else courseSetters?.setCourses([]);
     }
   }
 

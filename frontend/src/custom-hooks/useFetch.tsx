@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useReducer } from "react";
 import { baseURL } from "../utils/config";
 import { ActionType, BackendResponse, FetchState } from "../types/types";

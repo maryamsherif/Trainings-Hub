@@ -7,7 +7,7 @@ export default function CommentList({
   comments: CourseComment[];
 }) {
   let results;
-  if (!comments.length) {
+  if (!comments?.length) {
     results = (
       <p className="text-center text-sm text-gray-600">
         No comments yet. Be the first to comment!

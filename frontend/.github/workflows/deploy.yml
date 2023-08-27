@@ -3,8 +3,6 @@ name: Deploy
 on:
   push:
     branches:
-      - front-end
-      - master
       - main
 
 jobs:
@@ -14,16 +12,25 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node
         uses: actions/setup-node@v3
 
+        
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
-
+        
+      - name: Build css
+        run:  npx tailwindcss -i "${GITHUB_WORKSPACE}/src/App.css" -o "${GITHUB_WORKSPACE}/dist/output.css"
+        
       - name: Build project
         run: npm run build
+        
+      - name: Debugging
+        run: |
+            pwd # Print current working directory
+            ls -R # List contents of all directories recursively
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
