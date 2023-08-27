@@ -62,6 +62,54 @@ public class CommentService {
         return false;
     }
 
+    public boolean deleteComment(Integer commentId)
+    {
+        Optional<Comment> optionalComment = commentRepository.findById(commentId);
+
+        if (optionalComment.isPresent()) {
+            Comment comment = optionalComment.get();
+            Course course = courseRepository.findById(comment.getCourse().getId()).orElse(null);
+
+            if (course != null) {
+
+
+                try
+                {
+                    commentRepository.delete(comment);
+                }
+                catch (Exception e) {
+
+                    String errorMessage = "Comment with ID " + commentId + " not found";
+                    return false;
+
+                }
+
+                course.setRating(getAverageRating(course.getComments(), 0));
+
+                try
+                {
+                    courseRepository.save(course);
+                }
+                catch (Exception e) {
+                    String errorMessage = "Comment with ID " + commentId + " not found";
+                    return false;
+                }
+
+                return true;
+            }
+
+
+            String errorMessage = "Comment with ID " + commentId + " not found";
+            return false;
+
+        } else {
+            String errorMessage = "Comment with ID " + commentId + " not found";
+            return false;
+        }
+
+    }
+
+
     private Double getAverageRating(List<Comment> comments, Integer newComment )
     {
         Double average = 0.0 ;
@@ -75,4 +123,6 @@ public class CommentService {
         return average/(comments.size()+0.0) ;
 
     }
+
+
 }

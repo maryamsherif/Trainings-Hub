@@ -6,19 +6,34 @@ externalDocs:
   description: Retrieves all the courses and comments information, you can search for  courses by courseId, courseCategory
   url: http://swagger.io
 servers:
-  - url: https://localhost:8080
+  - url: https://localhost:8080/api
 tags:
   - name: course
-    description: Everything about the courses
+    description: Courses' endpoints
 paths:
 
-  /getAllCourses:
+  /course/getAllCourses:
     get:
       tags:
         - course
       summary: Gets all courses
       description: Gets all the courses in the database.
       operationId: getAllCourses
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+          description: Page number for pagination
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 5
+          description: Number of items per page
       responses:
         '200':
           description: successful operation
@@ -28,12 +43,31 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Course'
+                example: { "message": "Success",
+    "status": "200",
+    "response": [
+        {
+            "id": 1,
+            "description": "Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum.",
+            "category": "Intermediate",
+            "instructorName": "Rey Moriarty",
+            "rating": 5.0,
+            "duration": "29.08",
+            "content": "Rey",
+            "comments": [
+                {
+                    "id": 128,
+                    "author": "Finlay Mettetal",
+                    "comment": "Donec semper sapien a libero. Nam dui.",
+                    "rating": 5,
+                    "comment_date_time": "2023-06-16T04:45:14"
+                }]}]}
             application/xml:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Course'
-  /getCourseByKeyword/{keyword}:
+  /course/getCourseByKeyword/{keyword}:
     get:
       tags:
         - course
@@ -47,24 +81,62 @@ paths:
           required: true
           schema:
             type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+          description: Page number for pagination
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 5
+          description: Number of items per page
       responses:
         '200':
           description: successful operation
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Course'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Course'
+                example: {
+    "message": "Success",
+    "status": "200",
+    "response": [
+        {
+            "id": 11,
+            "description": "Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo.",
+            "category": "Beginner",
+            "instructorName": "Harmonia Gibbs",
+            "rating": 5,
+            "duration": "17.31",
+            "content": "Harmonia",
+            "comments": [
+                {
+                    "id": 126,
+                    "author": "Jermaine Spraging",
+                    "comment": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio.",
+                    "rating": 5,
+                    "comment_date_time": "2022-11-15T23:31:03"
+                }
+            ]
+        }
+        ]}
         '404':
-          description: Course not found
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "No courses found with keyword sdfghjk",
+    "status": "404",
+    "response": []
+}
+            
 
-  /getCourseById/{courseId}:
+  /course/getCourseById/{courseId}:
     get:
       tags:
         - course
@@ -84,13 +156,38 @@ paths:
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Course'
+              example: { "message": "Success",
+    "status": "200",
+    "response": 
+        {
+            "id": 1,
+            "description": "Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum.",
+            "category": "Intermediate",
+            "instructorName": "Rey Moriarty",
+            "rating": 5.0,
+            "duration": "29.08",
+            "content": "Rey",
+            "comments": [
+                {
+                    "id": 128,
+                    "author": "Finlay Mettetal",
+                    "comment": "Donec semper sapien a libero. Nam dui.",
+                    "rating": 5,
+                    "comment_date_time": "2023-06-16T04:45:14"
+                }]}}
         '404':
-          description: Course not found
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "Course with ID 2000 not found.",
+    "status": "404",
+    "response": []
+}
 
 
-  /getCourseByCategory/{Category}:
+  /course/getCourseByCategory/{Category}:
     get:
       tags:
         - course
@@ -100,21 +197,65 @@ paths:
       parameters:
         - name: Category
           in: path
+          description: Category of the courses to retrieve
           required: true
           schema:
             type: string
             enum: [ "Beginner", "Intermediate", "Professional" ]
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+          description: Page number for pagination
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 5
+          description: Number of items per page
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Course'
+              example: {
+    "message": "Success",
+    "status": "200",
+    "response": [
+        {
+            "id": 11,
+            "description": "Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo.",
+            "category": "Beginner",
+            "instructorName": "Harmonia Gibbs",
+            "rating": 5,
+            "duration": "17.31",
+            "content": "Harmonia",
+            "comments": [
+                {
+                    "id": 126,
+                    "author": "Jermaine Spraging",
+                    "comment": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio.",
+                    "rating": 5,
+                    "comment_date_time": "2022-11-15T23:31:03"
+                }
+            ]
+        }
+        ]}
         '400':
-          description: Invalid Category
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "Invalid category: low, the appropriate values are beginner, intermediate, professional",
+    "status": "400",
+    "response": []
+}
 
-  /addCourse:
+  /course/addCourse:
     post:
       tags:
         - course
@@ -131,12 +272,32 @@ paths:
           description: Course added successfully
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Course'
+              example: {
+    "message": "Success",
+    "status": "201",
+    "response": {
+        "id": 102,
+        "description": "Spring Boot crash course",
+        "category": "Beginner",
+        "instructorName": "Mr. John",
+        "rating": 4.0,
+        "duration": "49.6",
+        "content": "https://www.udemy.com/course/the-ultimate-react-course/",
+        "comments": null
+    }
+}
         '400':
           description: Invalid Input
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "Invalid Input",
+    "status": "400",
+    "response": []
+}
 
-  /updateCourse/{courseId}:
+  /course/updateCourse/{courseId}:
     patch:
       tags:
         - course
@@ -156,17 +317,45 @@ paths:
               $ref: '#/components/schemas/Course'
       responses:
         '201':
-          description: Course edited successfully
+          description: Course uppdated successfully
+          content:
+            application/json:
+              example: {
+    "message": "Success",
+    "status": "201",
+    "response": {
+        "id": 102,
+        "description": "Spring Boot crash course",
+        "category": "Beginner",
+        "instructorName": "Mr. John",
+        "rating": 4.0,
+        "duration": "49.6",
+        "content": "https://www.udemy.com/course/the-ultimate-react-course/",
+        "comments": null
+    }
+}
+        '404':
+          description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Course'
-        '404':
-          description: Course not found
+                example: {
+    "message": "Course with ID 2000 not found.",
+    "status": "404",
+    "response": []
+}
         '400':
           description: Invalid Input
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "Invalid Input",
+    "status": "400",
+    "response": []
+}
 
-  /deleteCourse/{courseId}:
+  /course/deleteCourse/{courseId}:
     delete:
       tags:
         - course
@@ -181,11 +370,28 @@ paths:
       responses:
         '200':
           description: Course deleted successfully
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "Success",
+    "status": "200",
+    "response": []
+}
+          
         '404':
-          description: Course not found
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "Course with ID 2000 not found.",
+    "status": "404",
+    "response": []
+}
 
 
-  /getAllComments/{courseId}:
+  /comment/getAllComments/{courseId}:
     get:
       summary: Get all comments for a specific course
       tags:
@@ -197,21 +403,39 @@ paths:
           required: true
           schema:
             type: integer
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+          description: Page number for pagination
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 5
+          description: Number of items per page
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Comment'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Comment'
+              example: {
+    "message": "Success",
+    "status": "200",
+    "response": [ {
+            "id": 205,
+            "author": "Amera Salah",
+            "comment": "This course helped me to get me my first job",
+            "rating": 0,
+            "comment_date_time": "2023-08-21T13:18:58"
+        }]
+}
 
 
-  /addComment/{courseId}:
+  /comment/addComment/{courseId}:
     post:
       tags:
         - comment
@@ -233,10 +457,26 @@ paths:
       responses:
         '201':
           description: Comment added successfully
-        '400':
-          description: Invalid input
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "Success",
+    "status": "201",
+    "response": []
+}
+        '404':
+          description: Comment not found
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "Invalid Input",
+    "status": "400",
+    "response": []
+}
 
-  /deleteComment/{commentId}:
+  /comment/deleteComment/{commentId}:
     delete:
       tags:
         - comment
@@ -254,8 +494,119 @@ paths:
       responses:
         '200':
           description: Comment deleted successfully
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "Success",
+    "status": "200",
+    "response": []
+}
         '404':
           description: Comment not found
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "Invalid Input",
+    "status": "400",
+    "response": []
+}
+
+  /bulkInsertCSV:
+    post:
+      tags:
+        - course
+      summary: Bulk insert data from CSV file
+      operationId: bulkInsertCSV
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary  
+      responses:
+        '201':
+          description: Courses added successfully
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "Courses added successfully !",
+    "status": "201",
+    "response": []
+}
+        '400':
+          description: Invalid Inout
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "Invalid Input",
+    "status": "400",
+    "response": []
+}
+        '404':
+          description: File not found
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "File not found",
+    "status": "404",
+    "response": []
+}
+
+  /bulkInsertPath:
+    post:
+      tags:
+        - course
+      summary: Bulk insert data from CSV file given it local path
+      operationId: bulkInsertPath
+      parameters:
+        - name: csvPath
+          in: query
+          required: true
+          schema:
+            type: string
+            format: byte
+          description: URL-encoded path to the CSV file  
+      responses:
+        '201':
+          description: Courses added successfully
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "Courses added successfully !",
+    "status": "201",
+    "response": []
+     }
+        '400':
+          description: Invalid Inout
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "Invalid Input",
+    "status": "400",
+    "response": []
+    }
+        '404':
+          description: File not found
+          content:
+            application/json:
+              schema:
+                example: {
+    "message": "File not found",
+    "status": "404",
+    "response": []
+    }
+
 
 components:
   schemas:
@@ -279,9 +630,6 @@ components:
         instructorName:
           type: string
           example: Mr. John
-        imgUrl:
-          type: string
-          example: https://img-b.udemycdn.com/course/240x135/806922_6310_3.jpg
         rating:
           type: integer
           format: int64
@@ -300,10 +648,7 @@ components:
         - description
         - category
         - instructorName
-
-
-
-
+        - rating
     Comment:
       type: object
       properties:
@@ -320,7 +665,7 @@ components:
           example: 4
         comment:
           type: string
-          example: This course helped me to get my first job
+          example: This course helped me to get me my first job
       xml:
         name: comment
       required:

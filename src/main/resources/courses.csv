@@ -1,0 +1,101 @@
+id,content,duration,instructor_name,description,category,rating
+100,"Course 1",45.12,"Instructor 1","A comprehensive introduction to the subject.","Beginner",4.5
+101,"Course 2",60.75,"Instructor 2","Learn the basics and advanced techniques.","Beginner",3.9
+102,"Course 3",30.25,"Instructor 3","Practical hands-on exercises for real-world applications.","Beginner",4.2
+103,"Course 4",90.0,"Instructor 4","Master the art of problem-solving.","Beginner",4.8
+104,"Course 5",50.5,"Instructor 5","Unlock the secrets of effective communication.","Beginner",3.7
+105,"Course 6",75.30,"Instructor 6","Discover the wonders of the universe.","Beginner",4.0
+106,"Course 7",55.0,"Instructor 7","Build a strong foundation in programming.","Beginner",4.6
+107,"Course 8",70.25,"Instructor 8","Navigate the complexities of modern economics.","Beginner",3.5
+108,"Course 9",40.75,"Instructor 9","Transform your culinary skills.","Beginner",4.1
+109,"Course 10",80.15,"Instructor 10","Create stunning visual artworks.","Beginner",4.9
+110,"Course 11",37.5,"Instructor 11","Explore the history of ancient civilizations.","Beginner",3.8
+111,"Course 12",65.0,"Instructor 12","Understand the principles of sustainable living.","Beginner",4.2
+112,"Course 13",52.0,"Instructor 13","Master the art of photography.","Beginner",4.7
+113,"Course 14",68.5,"Instructor 14","Learn the strategies for successful entrepreneurship.","Beginner",3.6
+114,"Course 15",42.75,"Instructor 15","Discover the world of classical music.","Beginner",4.3
+115,"Course 16",95.0,"Instructor 16","Dive into the realms of literature.","Beginner",3.9
+116,"Course 17",48.25,"Instructor 17","Stay fit with a personalized workout routine.","Beginner",4.8
+117,"Course 18",78.5,"Instructor 18","Unleash your creativity through writing.","Beginner",4.4
+118,"Course 19",55.75,"Instructor 19","Explore the mysteries of the human mind.","Beginner",3.7
+119,"Course 20",73.0,"Instructor 20","Learn the strategies of successful negotiation.","Beginner",4.6
+120,"Course 21",36.0,"Instructor 21","Appreciate the beauty of modern art.","Beginner",4.2
+121,"Course 22",42.5,"Instructor 22","Explore advanced techniques in modern art.","Intermediate",4.5
+122,"Course 23",50.0,"Instructor 23","Master the art of watercolor painting.","Intermediate",4.0
+123,"Course 24",28.75,"Instructor 24","Create stunning landscapes using acrylics.","Intermediate",4.3
+124,"Course 25",65.5,"Instructor 25","Introduction to digital art using Photoshop.","Intermediate",3.8
+125,"Course 26",55.25,"Instructor 26","Sculpting fundamentals with clay.","Intermediate",4.2
+126,"Course 27",70.0,"Instructor 27","Discover the beauty of abstract expressionism.","Intermediate",4.7
+127,"Course 28",40.5,"Instructor 28","Advanced techniques in portrait drawing.","Intermediate",3.9
+128,"Course 29",90.25,"Instructor 29","Exploring mixed media art forms.","Intermediate",4.5
+129,"Course 30",32.0,"Instructor 30","Capture the essence of nature through art.","Intermediate",4.1
+130,"Course 31",75.0,"Instructor 31","Creating visually appealing typography.","Intermediate",4.4
+131,"Course 32",47.75,"Instructor 32","Developing your unique artistic style.","Intermediate",3.7
+132,"Course 33",55.0,"Instructor 33","Introduction to digital sculpting with ZBrush.","Intermediate",4.6
+133,"Course 34",82.5,"Instructor 34","Exploring art therapy techniques.","Intermediate",4.2
+134,"Course 35",43.25,"Instructor 35","Mastering color theory in art.","Intermediate",3.9
+135,"Course 36",68.0,"Instructor 36","Crafting intricate mandala designs.","Intermediate",4.3
+136,"Course 37",27.5,"Instructor 37","Using art to communicate emotions.","Intermediate",3.8
+137,"Course 38",58.75,"Instructor 38","Discovering the world of kinetic art.","Intermediate",4.5
+138,"Course 39",49.0,"Instructor 39","Creating art with found objects.","Intermediate",4.1
+139,"Course 40",72.5,"Instructor 40","Exploring cultural influences in art.","Intermediate",4.9
+140,"Course 41",35.0,"Instructor 41","Introduction to art history and movements.","Intermediate",3.8
+141,"Course 42",81.25,"Instructor 42","Fusing traditional and digital art techniques.","Intermediate",4.7
+142,"Course 43",45.75,"Instructor 43","Capturing urban landscapes through art.","Intermediate",4.2
+143,"Course 44",62.0,"Instructor 44","Transforming recycled materials into art.","Intermediate",3.9
+144,"Course 45",30.5,"Instructor 45","Creating intricate patterns in Islamic art.","Intermediate",4.4
+145,"Course 46",70.75,"Instructor 46","Exploring surrealism and dreamscapes.","Intermediate",4.1
+146,"Course 47",52.25,"Instructor 47","Crafting origami and paper sculptures.","Intermediate",3.7
+147,"Course 48",48.0,"Instructor 48","Introduction to modern art installations.","Intermediate",4.6
+148,"Course 49",85.25,"Instructor 49","Using art for environmental awareness.","Intermediate",4.3
+149,"Course 50",39.75,"Instructor 50","Incorporating technology into art.","Intermediate",4.8
+150,"Course 51",77.0,"Instructor 51","Exploring cultural heritage through art.","Intermediate",4.0
+151,"Course 52",42.0,"Instructor 52","Abstract art: Expressing emotions through form.","Intermediate",4.5
+152,"Course 53",63.25,"Instructor 53","The art of storytelling through visual mediums.","Intermediate",3.9
+153,"Course 54",25.5,"Instructor 54","Creating expressive art with oil pastels.","Intermediate",4.2
+154,"Course 55",57.75,"Instructor 55","Exploring symbolism and metaphor in art.","Intermediate",4.7
+155,"Course 56",37.0,"Instructor 56","The intersection of art and science.","Intermediate",3.8
+156,"Course 57",67.25,"Instructor 57","Collage and mixed media explorations.","Intermediate",4.6
+157,"Course 58",47.5,"Instructor 58","Discovering the world of street art.","Intermediate",4.0
+158,"Course 59",72.0,"Instructor 59","Creating art with a focus on social change.","Intermediate",4.3
+159,"Course 60",33.75,"Instructor 60","Exploring minimalism and simplicity in art.","Intermediate",3.7
+160,"Course 61",55.0,"Instructor 61","Mastering advanced digital painting techniques.","Professional",4.6
+161,"Course 62",78.75,"Instructor 62","Sculpting hyper-realistic human figures.","Professional",4.3
+162,"Course 63",42.5,"Instructor 63","Creating concept art for video games.","Professional",4.9
+163,"Course 64",63.25,"Instructor 64","Advanced visual storytelling for films.","Professional",4.7
+164,"Course 65",35.5,"Instructor 65","Professional techniques in architectural illustration.","Professional",4.2
+165,"Course 66",70.0,"Instructor 66","Advanced character design and animation.","Professional",4.8
+166,"Course 67",49.75,"Instructor 67","Crafting intricate illustrations for books.","Professional",4.1
+167,"Course 68",81.5,"Instructor 68","Advanced digital sculpting with Blender.","Professional",4.5
+168,"Course 69",52.0,"Instructor 69","Creating art for virtual reality experiences.","Professional",4.6
+169,"Course 70",92.25,"Instructor 70","Mastering visual effects and compositing.","Professional",4.4
+170,"Course 71",44.5,"Instructor 71","Professional techniques in scientific illustration.","Professional",4.3
+171,"Course 72",69.0,"Instructor 72","Advanced motion graphics and animation.","Professional",4.8
+172,"Course 73",57.75,"Instructor 73","Creating art for the fashion and beauty industry.","Professional",4.5
+173,"Course 74",83.25,"Instructor 74","Professional techniques in medical illustration.","Professional",4.2
+174,"Course 75",38.0,"Instructor 75","Advanced digital painting for fantasy art.","Professional",4.7
+175,"Course 76",72.5,"Instructor 76","Mastering concept art for science fiction.","Professional",4.1
+176,"Course 77",48.25,"Instructor 77","Professional techniques in industrial design.","Professional",4.9
+177,"Course 78",68.75,"Instructor 78","Advanced art direction and visual communication.","Professional",4.4
+178,"Course 79",56.0,"Instructor 79","Creating art for the gaming industry.","Professional",4.5
+179,"Course 80",88.5,"Instructor 80","Mastering 3D animation and rigging.","Professional",4.6
+180,"Course 81",40.25,"Instructor 81","Advanced vector illustration techniques.","Professional",4.8
+181,"Course 82",75.0,"Instructor 82","Professional techniques in automotive design.","Professional",4.0
+182,"Course 83",60.5,"Instructor 83","Advanced visual effects for films.","Professional",4.7
+183,"Course 84",95.75,"Instructor 84","Mastering digital matte painting.","Professional",4.3
+184,"Course 85",46.0,"Instructor 85","Professional techniques in game environment design.","Professional",4.2
+185,"Course 86",71.25,"Instructor 86","Advanced illustration for advertising campaigns.","Professional",4.6
+186,"Course 87",54.5,"Instructor 87","Creating art for augmented reality experiences.","Professional",4.9
+187,"Course 88",86.0,"Instructor 88","Professional techniques in architectural visualization.","Professional",4.5
+188,"Course 89",37.75,"Instructor 89","Advanced typography and lettering.","Professional",4.1
+189,"Course 90",64.25,"Instructor 90","Mastering 3D modeling for animation.","Professional",4.8
+190,"Course 91",42.0,"Instructor 91","Professional techniques in portrait photography.","Professional",4.3
+191,"Course 92",77.5,"Instructor 92","Advanced visual development for animation.","Professional",4.0
+192,"Course 93",51.75,"Instructor 93","Professional techniques in medical animation.","Professional",4.7
+193,"Course 94",79.0,"Instructor 94","Mastering digital sculpting for film and games.","Professional",4.6
+194,"Course 95",50.5,"Instructor 95","Professional techniques in product rendering.","Professional",4.5
+195,"Course 96",67.75,"Instructor 96","Advanced illustration for children's books.","Professional",4.4
+196,"Course 97",93.25,"Instructor 97","Professional techniques in architectural photography.","Professional",4.2
+197,"Course 98",35.25,"Instructor 98","Mastering 3D lighting and rendering.","Professional",4.1
+198,"Course 99",60.0,"Instructor 99","Professional techniques in automotive illustration.","Professional",4.9
+199,"Course 100",45.5,"Instructor 100","Advanced visual storytelling for games.","Professional",4.8
