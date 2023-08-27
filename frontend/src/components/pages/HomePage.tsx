@@ -1,18 +1,21 @@
-import { useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+
+import { useContext, useEffect } from "react";
 import useFetch from "../../custom-hooks/useFetch";
-import { Course, BackendResponse } from "../../types/types";
-import SearchBar from "../reusable/SearchBar/SearchBar";
+import { Course, backendSuccessResponse } from "../../types/types";
+import SearchBar from "../reusable/searchBar/SearchBar.tsx";
 import CourseList from "../reusable/course/CourseList";
-import { useCourseContext } from "../../context/CourseContext";
+import { CourseContext } from "../../context/CourseContext";
+import DeleteModal from "../reusable/modal/DeleteModal.tsx";
 
 export default function HomePage() {
-  const { setCourses, courses } = useCourseContext();
-  const data = useFetch<BackendResponse<Course[]>>({
+  const { courseSetters, courses } = useContext(CourseContext);
+  const data = useFetch<backendSuccessResponse<Course[]>>({
     endpoint: "course/getAllCourses",
   });
   useEffect(() => {
-    if (data.state === "complete" && Array.isArray(data.response)) {
-      setCourses(data.response as Course[]);
+    if (data.state === "complete" && Array.isArray(data.response?.response)) {
+      courseSetters?.setCourses(data.response?.response as Course[]);
     }
   }, [data.state]);
   let result;
@@ -31,6 +34,7 @@ export default function HomePage() {
       </div>
     );
   }
+  console.log({ courses });
 
   return (
     <main className="flex flex-col mb-10 sm:flex-row">

@@ -3,7 +3,7 @@ import { Course } from "../../../types/types";
 import classNames from "classnames";
 
 export default function CourseCard({ course }: { course: Course }) {
-  const courseLink = `/course/${course.id}`;
+  const courseLink = `course/${course.id}`;
   const categoryClasses = {
     Beginner: "bg-sky-400",
     Intermediate: "bg-yellow-500",

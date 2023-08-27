@@ -1,12 +1,11 @@
 import { CourseComment } from "../../../types/types";
 import { convertIsoString } from "../../../utils";
+import CommentAuthorPhoto from "./CommentAuthorPhoto";
 
 export default function Comment({ comment }: { comment: CourseComment }) {
   return (
     <div className="relative shadow-sm rounded-lg flex gap-2 min-w-[25rem] p-2 md:py-6 md:px-4 border-gray-100 border-2">
-      <div className="bg-gray-300 rounded-full px-[10px]">
-        <span className="text-[40px]">👮‍♀️</span>
-      </div>
+      <CommentAuthorPhoto />
       <div className="flex flex-col">
         <div className="flex flex-col gap-1">
           <div className="flex gap-4">

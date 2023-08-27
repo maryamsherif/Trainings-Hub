@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useReducer } from "react";
 import { baseURL } from "../utils/config";
-import { ActionType, FetchState } from "../types/types";
+import { ActionType, BackendResponse, FetchState } from "../types/types";
 
 const initialState: FetchState<null> = {
   state: "loading",
@@ -52,11 +53,11 @@ async function fetchData<T>({
       return;
     }
 
-    const data = await response.json();
+    const data: BackendResponse<T> = await response.json();
 
     if (!data) return;
 
-    dispatch({ type: "complete", res: data });
+    dispatch({ type: "complete", res: data as T });
   } catch (err) {
     const error = err as Error;
     const errorMessage = `An error occurred: ${
