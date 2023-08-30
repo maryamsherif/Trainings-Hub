@@ -16,7 +16,7 @@ export default function AddComment({
   const [author, setAuthor] = useState("");
   const [error, setError] = useState("");
 
-  const ctx = useContext(ReviewStarsContext);
+  const starsContext = useContext(ReviewStarsContext);
 
   async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -24,7 +24,7 @@ export default function AddComment({
       author,
       comment,
 
-      rating: ctx.currentRating as Rating,
+      rating: starsContext.currentRating as Rating,
       comment_date_time: new Date().toISOString() as string,
     };
     const data = (await fetchDataFromAPI({
@@ -35,11 +35,11 @@ export default function AddComment({
         method: "POST",
       },
     })) as backendSuccessResponse<[]>;
-    if (data.status === "Success") {
+    if (data.message === "Success") {
       setComment("");
       setAuthor("");
       setError("");
-      ctx.reset?.();
+      starsContext.reset?.();
       setCourse({
         ...course,
         comments: [

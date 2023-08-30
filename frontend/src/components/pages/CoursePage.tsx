@@ -39,8 +39,7 @@ export default function CoursePage() {
           endpoint: `course/deleteCourse/${id}`,
           configurationOpt: { method: "DELETE" },
         });
-        console.log(response);
-        if (response.status === "Success") {
+        if (response.message === "Success") {
           courseSetters?.deleteCourse(course as Course);
           navigation("..");
         } else {

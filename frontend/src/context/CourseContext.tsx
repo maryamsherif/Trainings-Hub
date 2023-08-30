@@ -9,7 +9,8 @@ type CourseContextType = ReducerState & {
     addCourse: (course: Course) => void;
     deleteCourse: (course: Course) => void;
     setCurrentCourse: (course: Course) => void;
-    setCourses: (courses: Course[]) => void;
+    setCourses: (courses: Course[], saveAsInitial?: boolean) => void;
+    pointToInitialState: () => void;
   };
 };
 
@@ -21,15 +22,18 @@ type ReducerAction = {
     | "setCurrentCourse"
     | "setCourses";
   payload: Course[] | Course | Partial<Course>;
+  saveAsInitial?: boolean;
 };
 
 type ReducerState = {
   courses: Course[];
   currentCourse: Course;
+  initialCourses: Course[];
 };
 
 const initialState = {
   courses: [] as Course[],
+  initialCourses: [] as Course[],
   currentCourse: {} as Course,
 };
 
@@ -56,6 +60,13 @@ function reducerFunction(state: ReducerState, action: ReducerAction) {
   } else if (action.type === "setCurrentCourse")
     return { ...state, currentCourse: action.payload as Course };
   else if (action.type === "setCourses") {
+    if (action.saveAsInitial) {
+      return {
+        ...state,
+        courses: action.payload as Course[],
+        initialCourses: action.payload as Course[],
+      };
+    }
     return { ...state, courses: action.payload as Course[] };
   }
 
@@ -67,13 +78,13 @@ export default function CourseProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [{ courses, currentCourse }, dispatch] = useReducer(
+  const [{ courses, currentCourse, initialCourses }, dispatch] = useReducer(
     reducerFunction,
     initialState
   );
 
-  function setCourses(courses: Course[]) {
-    dispatch({ type: "setCourses", payload: courses });
+  function setCourses(courses: Course[], saveAsInitial: boolean = false) {
+    dispatch({ type: "setCourses", payload: courses, saveAsInitial });
   }
 
   function editCourse(course: Partial<Course>) {
@@ -91,17 +102,23 @@ export default function CourseProvider({
     dispatch({ type: "setCurrentCourse", payload: course });
   }
 
+  function pointToInitialState() {
+    dispatch({ type: "setCourses", payload: initialCourses });
+  }
+
   return (
     <CourseContext.Provider
       value={{
         courses,
         currentCourse,
+        initialCourses,
         courseSetters: {
           setCourses,
           editCourse,
           addCourse,
           deleteCourse,
           setCurrentCourse,
+          pointToInitialState,
         },
       }}
     >

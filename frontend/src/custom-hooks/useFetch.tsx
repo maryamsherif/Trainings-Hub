@@ -71,10 +71,11 @@ async function fetchData<T>({
 export default function useFetch<T>({
   endpoint,
   configurationOpt = {},
+  dependsOn = [],
 }: {
   endpoint: string;
   configurationOpt?: RequestInit;
-  callback?: (data: T | null) => T | null;
+  dependsOn?: Array<unknown>;
 }): FetchState<T> {
   const [fetchState, dispatch] = useReducer(reducerFunction, initialState);
 
@@ -85,7 +86,7 @@ export default function useFetch<T>({
     fetchData<T>({ endpoint, configurationOpt, dispatch, signal });
 
     return () => controller.abort();
-  }, [endpoint]);
+  }, [endpoint, ...dependsOn]);
 
   return fetchState as FetchState<T>;
 }

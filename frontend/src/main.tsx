@@ -10,10 +10,11 @@ import CourseProvider from "./context/CourseContext.tsx";
 import CoursePage, {
   loader as courseLoader,
 } from "./components/pages/CoursePage.tsx";
+import BulkInsert from "./components/pages/BulkInsert.tsx";
 
 const router = createBrowserRouter([
   {
-    path: "_VOIS-Internship",
+    path: "/",
     element: <Root></Root>,
     children: [
       {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
         path: "course/:courseId",
         element: <CoursePage></CoursePage>,
         loader: courseLoader,
+      },
+      {
+        path: "bulkInsert",
+        element: <BulkInsert></BulkInsert>,
       },
     ],
   },

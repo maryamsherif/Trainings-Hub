@@ -101,6 +101,7 @@ public class CourseService {
                 course.setDescription(fields[4]);
                 course.setCategory(fields[5]);
                 course.setRating(Double.parseDouble(fields[6]));
+                course.setImgUrl(fields[7]);
                 courses.add(course);
 
             }
@@ -135,11 +136,14 @@ public class CourseService {
     }
 
     public void bulkInsertFromCsv(InputStream inputStream) throws Exception {
-
+        System.out.println(inputStream);
         List<Course> courses = parseDataFromCSVFile(inputStream);
+        System.out.println(courses);
 
         String sql = "INSERT INTO COURSE (id, content, duration, instructor_name, description, category, rating) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        System.out.println(sql);
 
         try
         {
@@ -175,7 +179,7 @@ public class CourseService {
             String line;
             reader.readLine();
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                System.out.println("LINE" + line);
                 String[] fields = line.split(",");
                 Course course = new Course();
                 course.setId(Integer.parseInt(fields[0]));
@@ -186,6 +190,7 @@ public class CourseService {
                 course.setCategory(fields[5]);
                 course.setRating(Double.parseDouble(fields[6]));
                 courses.add(course);
+                System.out.println("COURSE" + course.toString());
             }
         } catch (IOException e) {
             e.printStackTrace();

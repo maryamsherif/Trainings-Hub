@@ -3,7 +3,11 @@ import { CourseContext } from "../../../context/CourseContext";
 import { Course, backendSuccessResponse } from "../../../types/types";
 import { fetchDataFromAPI } from "../../../utils";
 
-export default function SearchBar() {
+export default function SearchBar({
+  setShowPagination,
+}: {
+  setShowPagination: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [category, setCategory] = useState("");
   const { courseSetters } = useContext(CourseContext);
 
@@ -12,28 +16,37 @@ export default function SearchBar() {
     setCategory("");
     const formData = new FormData(event.target as HTMLFormElement);
     const keyword = formData.get("keyword");
+    if (!keyword) {
+      courseSetters?.pointToInitialState();
+      return;
+    }
     const data: backendSuccessResponse<Course[]> = await fetchDataFromAPI({
       endpoint: `course/getAllCoursesByKeyword?keyword=${keyword}`,
     });
 
-    console.log(data);
-
-    if (data && Array.isArray(data.response))
+    if (data && Array.isArray(data.response)) {
       courseSetters?.setCourses(data.response as Course[]);
-    else courseSetters?.setCourses([]);
+      setShowPagination(false);
+    } else courseSetters?.pointToInitialState();
   }
 
-  async function categoryHandler(event: React.ChangeEvent<HTMLSelectElement>) {
+  async function categoryChangeHandler(
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) {
     const category = event.target.value;
     setCategory(category);
+    console.log(category);
     if (category) {
       const data = (await fetchDataFromAPI({
         endpoint: `course/getCoursesByCategory/${category}`,
       })) as backendSuccessResponse<Course[]>;
-      console.log(data);
-      if (data && Array.isArray(data.response))
+      if (data && Array.isArray(data.response)) {
         courseSetters?.setCourses(data.response);
-      else courseSetters?.setCourses([]);
+        setShowPagination(false);
+      } else courseSetters?.pointToInitialState();
+    } else {
+      console.log("here");
+      courseSetters?.pointToInitialState();
     }
   }
 
@@ -59,7 +72,7 @@ export default function SearchBar() {
           Search By Category
         </label>
         <select
-          onChange={categoryHandler}
+          onChange={categoryChangeHandler}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
           title="select category"
           name="category"

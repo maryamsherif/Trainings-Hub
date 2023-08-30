@@ -6,7 +6,6 @@ import react from '@vitejs/plugin-react'
 export default defineConfig(({ command }) => {
   if (command === 'serve') {
     return {
-      base:"/_VOIS-Internship/",
       plugins: [react()],
       // dev specific config
     }

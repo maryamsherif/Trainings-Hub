@@ -37,7 +37,7 @@ public class CourseController {
 
     @GetMapping("/getAllCourses")
     public ResponseEntity<Object> getAllCourses(@RequestParam(defaultValue = "0") int page,
-                                                @RequestParam(defaultValue = "5") int size ){
+                                                @RequestParam(defaultValue = "15") int size ){
         try
         {
             List<Course> courses = courseService.getAllCourses(page, size);
